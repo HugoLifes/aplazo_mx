@@ -136,6 +136,9 @@ body {
   display: flex;
   flex-direction: column;
 }
+/* Prevent flex children from shrinking when a scrolling screen (e.g. the
+   dashboard) overflows — otherwise cards collapse under their own padding. */
+.screen-body > * { flex-shrink: 0; }
 .screen-body::-webkit-scrollbar { width: 0; }
 
 /* ---------- Typography helpers ---------- */

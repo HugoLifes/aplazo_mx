@@ -4,6 +4,21 @@ Prototipo de interfaz (solo diseño) de una app ficticia de **BNPL** ("compra ho
 
 > ⚠️ **Marca y datos 100% ficticios.** "Quincena" es una marca inventada; no representa ni se conecta con ninguna empresa real. Los datos son de muestra y los campos de verificación son **decorativos** (no envían ni validan ningún código). Es una pieza de portafolio de UI/UX.
 
+## Capturas
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/screenshots/01-bienvenida.png" width="230" alt="Bienvenida" /><br/><sub><b>Bienvenida</b></sub></td>
+    <td align="center"><img src="docs/screenshots/02-telefono.png" width="230" alt="Captura de teléfono" /><br/><sub><b>Teléfono</b></sub></td>
+    <td align="center"><img src="docs/screenshots/03-verificacion.png" width="230" alt="Verificación OTP" /><br/><sub><b>Verificación (OTP)</b></sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/screenshots/04-dashboard.png" width="230" alt="Dashboard" /><br/><sub><b>Dashboard</b></sub></td>
+    <td align="center"><img src="docs/screenshots/05-dashboard-detalle.png" width="230" alt="Dashboard — planes y movimientos" /><br/><sub><b>Planes y movimientos</b></sub></td>
+    <td></td>
+  </tr>
+</table>
+
 ## Pantallas
 
 1. **Bienvenida** — hero animado, beneficios y prueba social.
