@@ -1,26 +1,34 @@
 /* ============================================================
-   Quincena — Design System (marca ficticia, demo UX/UI)
+   Quincena — Sistema de diseño (marca ficticia, demo UX/UI)
+   ============================================================
+   CÓMO PERSONALIZAR:
+   - Colores y tipografías: en este bloque ":root" de abajo. Cambia un valor
+     (ej. --violet) y TODO lo que lo usa cambia de golpe. Guarda y se ve al toque.
+   - Textos y datos: NO están aquí, están en  src/content.js
+   - Mapa completo de "dónde cambio X":  ver  GUIA.md
+   Secciones de estilos más abajo (busca con Ctrl+F el comentario "----"):
+     Botones, Inputs, OTP, Tarjeta de crédito, Dashboard, Movimientos, etc.
    ============================================================ */
 
 :root {
-  /* Brand palette — plum / violet / lime */
-  --bg-0: #0b0712;
-  --bg-1: #140d20;
-  --surface: rgba(255, 255, 255, 0.045);
-  --surface-strong: rgba(255, 255, 255, 0.08);
-  --stroke: rgba(255, 255, 255, 0.09);
-  --stroke-strong: rgba(255, 255, 255, 0.16);
+  /* ----------  COLORES  (cambia estos hex para re-colorear la app)  ---------- */
+  --bg-0: #0b0712;         /* fondo más oscuro */
+  --bg-1: #140d20;         /* fondo del teléfono */
+  --surface: rgba(255, 255, 255, 0.045);        /* fondo de tarjetas */
+  --surface-strong: rgba(255, 255, 255, 0.08);  /* tarjetas resaltadas */
+  --stroke: rgba(255, 255, 255, 0.09);          /* bordes suaves */
+  --stroke-strong: rgba(255, 255, 255, 0.16);   /* bordes marcados */
 
-  --violet: #7c6cff;
-  --violet-2: #a78bfa;
-  --indigo: #5b53e0;
-  --lime: #c6f560;
-  --lime-ink: #16200a;
-  --coral: #ff8a6b;
+  --violet: #7c6cff;       /* COLOR PRINCIPAL (botones, acentos) */
+  --violet-2: #a78bfa;     /* violeta claro (enlaces, íconos) */
+  --indigo: #5b53e0;       /* violeta oscuro (degradados) */
+  --lime: #c6f560;         /* COLOR DE ACENTO (lima) */
+  --lime-ink: #16200a;     /* texto sobre lima */
+  --coral: #ff8a6b;        /* color de alerta/secundario */
 
-  --txt: #f4f1fb;
-  --txt-dim: #b4abcd;
-  --txt-faint: #7d7596;
+  --txt: #f4f1fb;          /* texto principal (casi blanco) */
+  --txt-dim: #b4abcd;      /* texto secundario */
+  --txt-faint: #7d7596;    /* texto tenue */
 
   --radius-sm: 14px;
   --radius: 22px;

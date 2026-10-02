@@ -1,6 +1,10 @@
+// Pantalla de VERIFICACIÓN (código OTP) — decorativa, no valida nada real.
+// ¿Cambiar textos o el aviso de demo? -> edita src/content.js (sección "otp").
+// ¿Cambiar el diseño de las casillas? -> edita src/styles.css (busca ".otp-cell").
 import { useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Arrow, Spark, Check } from '../components/Icons.jsx'
+import { otp as t } from '../content.js'
 
 function formatPhone(v) {
   const d = v.replace(/\D/g, '')
@@ -26,17 +30,20 @@ export default function OtpStep({ phone, onBack, onNext }) {
     if (e.key === 'Backspace' && !code[i] && i > 0) refs.current[i - 1]?.focus()
   }
 
-  // Demo helper: fills a sample, non-functional code
+  // Helper de demo: rellena un código de ejemplo (no funcional)
   const autofill = () => {
     setCode(['1', '2', '3', '4', '5', '6'])
     refs.current[5]?.focus()
   }
 
+  // Tiempos de la animación (en milisegundos). Cámbialos si quieres más rápido/lento.
   const verify = () => {
     setPhase('verifying')
-    setTimeout(() => setPhase('done'), 1500)
-    setTimeout(() => onNext(), 2700)
+    setTimeout(() => setPhase('done'), 1500)   // muestra el ✓ a los 1.5 s
+    setTimeout(() => onNext(), 2700)           // entra al dashboard a los 2.7 s
   }
+
+  const descripcion = t.descripcion.replace('{telefono}', formatPhone(phone) || 'tu número')
 
   if (phase !== 'idle') {
     return (
@@ -46,8 +53,8 @@ export default function OtpStep({ phone, onBack, onNext }) {
             <motion.div key="v" className="verify-wrap" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <div className="spinner" />
               <div>
-                <h3>Verificando…</h3>
-                <p>Estamos confirmando tu identidad de forma segura. Esto suele tardar unos segundos.</p>
+                <h3>{t.verificandoTitulo}</h3>
+                <p>{t.verificandoSub}</p>
               </div>
             </motion.div>
           ) : (
@@ -56,8 +63,8 @@ export default function OtpStep({ phone, onBack, onNext }) {
                 <div className="inner"><Check style={{ width: 30, height: 30 }} /></div>
               </motion.div>
               <div>
-                <h3>¡Identidad verificada!</h3>
-                <p>Tu cuenta Quincena está lista. Preparando tu panel…</p>
+                <h3>{t.exitoTitulo}</h3>
+                <p>{t.exitoSub}</p>
               </div>
             </motion.div>
           )}
@@ -70,12 +77,9 @@ export default function OtpStep({ phone, onBack, onNext }) {
     <div className="screen-body">
       <div className="progress"><i className="on" /><i className="on" /><i className="on" /><i /></div>
 
-      <span className="eyebrow">Paso 2 de 3</span>
-      <h2 className="display" style={{ marginTop: 8 }}>Verifica tu<br />número</h2>
-      <p className="lead" style={{ marginTop: 10 }}>
-        Escribe el código de 6 dígitos que enviamos al{' '}
-        <b style={{ color: '#f4f1fb' }}>{formatPhone(phone) || 'tu número'}</b>.
-      </p>
+      <span className="eyebrow">{t.paso}</span>
+      <h2 className="display" style={{ marginTop: 8, whiteSpace: 'pre-line' }}>{t.titulo}</h2>
+      <p className="lead" style={{ marginTop: 10 }}>{descripcion}</p>
 
       <div className="otp-row" style={{ marginTop: 28 }}>
         {code.map((c, i) => (
@@ -94,26 +98,27 @@ export default function OtpStep({ phone, onBack, onNext }) {
       </div>
 
       <div style={{ textAlign: 'center', marginTop: 16 }}>
-        <span className="btn-link">Reenviar código en <b>0:28</b></span>
+        <span className="btn-link">{t.reenviar}<b>{t.reenviarTiempo}</b></span>
       </div>
 
       <div className="hint">
         <Spark style={{ width: 18, height: 18, flexShrink: 0 }} />
         <div>
-          <b>Demo:</b> este campo es decorativo. No se envía ni se valida ningún código real.
-          Toca <b onClick={autofill} style={{ cursor: 'pointer', textDecoration: 'underline' }}>“rellenar ejemplo”</b> para continuar.
+          <b>{t.demoEtiqueta}</b> {t.demoTexto}
+          <b onClick={autofill} style={{ cursor: 'pointer', textDecoration: 'underline' }}>{t.demoResalte}</b>
+          {t.demoTextoFin}
         </div>
       </div>
 
       <div className="spacer" />
       <button className="btn ghost" style={{ marginBottom: 10 }} onClick={autofill}>
-        Rellenar ejemplo (demo)
+        {t.botonRellenar}
       </button>
       <button className="btn" disabled={!filled} onClick={verify}>
-        Verificar <Arrow />
+        {t.botonVerificar} <Arrow />
       </button>
       <button className="btn-link" style={{ marginTop: 8, width: '100%' }} onClick={onBack}>
-        ← Cambiar número
+        {t.botonCambiar}
       </button>
     </div>
   )

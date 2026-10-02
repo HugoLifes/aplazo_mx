@@ -34,6 +34,14 @@ Prototipo de interfaz (solo diseño) de una app ficticia de **BNPL** ("compra ho
 - Micro-interacciones con Framer Motion.
 - Patrones de fintech 2026: onboarding por pasos, dashboard accionable, gradientes suaves y tipografía fuerte.
 
+## ✏️ ¿Cómo lo edito?
+
+¿Quieres cambiar textos, colores o diseño sin perderte? Lee **[GUIA.md](GUIA.md)**.
+En resumen:
+- **Textos y datos** (nombres, montos, comercios): [`src/content.js`](src/content.js) — un solo archivo.
+- **Colores y tipografía**: bloque `:root` en [`src/styles.css`](src/styles.css).
+- **Diseño de cada parte**: secciones comentadas en el mismo `styles.css`.
+
 ## Correr en local
 
 ```bash

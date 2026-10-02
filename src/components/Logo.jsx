@@ -1,3 +1,5 @@
+import { brand } from '../content.js'
+
 export default function Logo({ size = 'md' }) {
   return (
     <div className="logo">
@@ -7,7 +9,7 @@ export default function Logo({ size = 'md' }) {
           <circle cx="12" cy="12" r="3.4" fill="#c6f560" />
         </svg>
       </div>
-      <div className="logo-word">Quin<span>cena</span></div>
+      <div className="logo-word">{brand.nombre1}<span>{brand.nombre2}</span></div>
     </div>
   )
 }

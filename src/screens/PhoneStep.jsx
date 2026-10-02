@@ -1,5 +1,10 @@
-import { Arrow, Shield, Phone } from '../components/Icons.jsx'
+// Pantalla de NÚMERO DE TELÉFONO.
+// ¿Cambiar textos, LADA, placeholder? -> edita src/content.js (sección "phone").
+// ¿Cambiar el diseño del campo? -> edita src/styles.css (busca ".phone-input").
+import { Arrow, Shield } from '../components/Icons.jsx'
+import { phone as t } from '../content.js'
 
+// Da formato al número mientras se escribe: 55 1234 5678
 function format(v) {
   const d = v.replace(/\D/g, '').slice(0, 10)
   const p = []
@@ -11,29 +16,27 @@ function format(v) {
 
 export default function PhoneStep({ phone, setPhone, onBack, onNext }) {
   const digits = phone.replace(/\D/g, '')
-  const valid = digits.length === 10
+  const valid = digits.length === 10 // el botón se activa con 10 dígitos
 
   return (
     <div className="screen-body">
       <div className="progress"><i className="on" /><i className="on" /><i /><i /></div>
 
-      <span className="eyebrow">Paso 1 de 3</span>
-      <h2 className="display" style={{ marginTop: 8 }}>¿Cuál es tu<br />número?</h2>
-      <p className="lead" style={{ marginTop: 10 }}>
-        Lo usamos para crear tu cuenta y mantenerla segura. Te enviaremos un código para confirmarlo.
-      </p>
+      <span className="eyebrow">{t.paso}</span>
+      <h2 className="display" style={{ marginTop: 8, whiteSpace: 'pre-line' }}>{t.titulo}</h2>
+      <p className="lead" style={{ marginTop: 10 }}>{t.descripcion}</p>
 
       <div style={{ marginTop: 26 }}>
         <div className="field">
-          <label>Número de celular</label>
+          <label>{t.etiquetaCampo}</label>
           <div className="phone-input">
-            <span className="cc"><span className="flag">🇲🇽</span> +52</span>
+            <span className="cc"><span className="flag">{t.bandera}</span> {t.lada}</span>
             <input
               inputMode="numeric"
-              placeholder="55 1234 5678"
+              placeholder={t.placeholder}
               value={format(phone)}
               onChange={(e) => setPhone(e.target.value)}
-              aria-label="Número de celular"
+              aria-label={t.etiquetaCampo}
             />
           </div>
         </div>
@@ -42,17 +45,17 @@ export default function PhoneStep({ phone, setPhone, onBack, onNext }) {
       <div className="feat-row" style={{ marginTop: 6 }}>
         <div className="fi" style={{ color: '#c6f560' }}><Shield /></div>
         <div>
-          <b>Tus datos están protegidos</b>
-          <span>Cifrado de extremo a extremo · nunca compartimos tu número</span>
+          <b>{t.seguridadTitulo}</b>
+          <span>{t.seguridadSub}</span>
         </div>
       </div>
 
       <div className="spacer" />
       <button className="btn" disabled={!valid} onClick={onNext}>
-        Enviar código <Arrow />
+        {t.botonPrincipal} <Arrow />
       </button>
       <button className="btn-link" style={{ marginTop: 8, width: '100%' }} onClick={onBack}>
-        ← Regresar
+        {t.botonRegresar}
       </button>
     </div>
   )

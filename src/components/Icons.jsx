@@ -19,3 +19,16 @@ export const Gift = (p) => (<svg {...base} {...p}><rect x="3" y="8" width="18" h
 export const Bell = (p) => (<svg {...base} {...p}><path d="M6 9a6 6 0 0112 0c0 5 2 6 2 6H4s2-1 2-6z" /><path d="M10 20a2 2 0 004 0" /></svg>)
 export const Flame = (p) => (<svg {...base} {...p}><path d="M12 3c1 3 4 4 4 8a4 4 0 01-8 0c0-1.5.6-2.3 1.2-3C9 9 9 7.5 12 3z" /></svg>)
 export const Calendar = (p) => (<svg {...base} {...p}><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 9h18M8 3v4M16 3v4" /></svg>)
+
+// Mapa de ícono por nombre: permite escribir 'bolt', 'cart', etc. en content.js.
+// <Icon name="bolt" /> pinta el ícono correspondiente.
+const MAP = {
+  arrow: Arrow, check: Check, shield: Shield, bolt: Bolt, wallet: Wallet,
+  cart: Cart, scan: Scan, plus: Plus, home: Home, chart: Chart, user: User,
+  lock: Lock, phone: Phone, spark: Spark, gift: Gift, bell: Bell,
+  flame: Flame, calendar: Calendar,
+}
+export function Icon({ name, ...props }) {
+  const Cmp = MAP[name] || Spark
+  return <Cmp {...props} />
+}
