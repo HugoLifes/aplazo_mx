@@ -21,8 +21,10 @@ Ahí encuentras, por secciones:
 | Pantalla de teléfono (textos, LADA, placeholder) | `phone` |
 | Pantalla de código/OTP (textos, aviso de demo) | `otp` |
 | Dashboard: saludo, tarjeta, monto, insight, próximo pago | `dashboard` |
-| Accesos rápidos (los 4 cuadros) | `dashboard.acciones` |
-| Planes activos (Liverpool, etc.) | `dashboard.planes` |
+| Tiendas asociadas (nombre, categoría, beneficio) | `comercios` |
+| Sección "Compra en tus tiendas favoritas" (títulos, filtros) | `dashboard.tiendas…` |
+| Accesos rápidos (los 4 botones y a dónde llevan) | `dashboard.acciones` |
+| Tus compras (Liverpool, etc.) | `dashboard.planes` |
 | Movimientos (Compras / Pagos) | `dashboard.movimientos` |
 
 **Reglas simples al editar texto:**
@@ -31,6 +33,20 @@ Ahí encuentras, por secciones:
 - Para íconos, escribe el **nombre**: `bolt`, `shield`, `gift`, `cart`, `scan`,
   `wallet`, `chart`, `spark`, `calendar`, `bell`.
 - No borres las comas `,` ni los corchetes `[ ]` `{ }`; solo cambia lo de adentro.
+
+---
+
+## 🏬 Agregar o cambiar LOGOS de tiendas
+
+👉 Copia el PNG (fondo transparente) en **[`src/assets/logos/`](src/assets/logos/)**.
+Se carga solo: el nombre del archivo debe coincidir con el `id` del comercio en
+`content.js → comercios` (ej. `nike` → `nike.png`). Lista completa y reglas en
+[`src/assets/logos/README.md`](src/assets/logos/README.md).
+
+- Para que una compra, el próximo pago o un movimiento muestre un logo, pon
+  `comercio: '<id>'` en ese bloque de `content.js`.
+- Para agregar una tienda nueva: copia un bloque `{ id: ..., nombre: ... }` en `comercios`.
+- Sin PNG todavía → se ve un monograma o el nombre en gris (nada se rompe).
 
 ---
 
@@ -55,8 +71,12 @@ comentarios `/* ---------- Nombre ---------- */`. Usa **Ctrl+F** para saltar:
 | Casillas del código | `.otp-cell` |
 | Tarjeta de crédito | `.credit-card` |
 | Accesos rápidos | `.quick` |
-| Planes | `.plan` |
+| Próximo pago | `.pay-card` |
+| Tus compras | `.purchase` |
+| Tarjetas de tiendas | `.merchant` |
+| Logos (tamaños) | `.mlogo` |
 | Movimientos | `.tx` |
+| Móvil / responsive | `RESPONSIVE` |
 | Barra inferior | `.tabbar` |
 
 ---
@@ -69,7 +89,9 @@ comentario que dice qué editar:
 - [`Welcome.jsx`](src/screens/Welcome.jsx) — bienvenida
 - [`PhoneStep.jsx`](src/screens/PhoneStep.jsx) — teléfono
 - [`OtpStep.jsx`](src/screens/OtpStep.jsx) — código + animación de verificación
-- [`Dashboard.jsx`](src/screens/Dashboard.jsx) — panel
+- [`Dashboard.jsx`](src/screens/Dashboard.jsx) — panel (arma las piezas de `src/components/`:
+  `CreditCard`, `QuickAction`, `PaymentCard`, `PurchaseCard`, `MerchantCard`,
+  `MerchantLogo`, `MovementItem`, `SectionHeader`)
 
 El orden del flujo (qué pantalla sigue a cuál) está en [`src/App.jsx`](src/App.jsx).
 

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, MotionConfig, motion } from 'framer-motion'
 import Welcome from './screens/Welcome.jsx'
 import PhoneStep from './screens/PhoneStep.jsx'
 import OtpStep from './screens/OtpStep.jsx'
@@ -22,6 +22,7 @@ export default function App() {
   }
 
   return (
+    <MotionConfig reducedMotion="user">
     <div className="stage">
       <div className="stage-head">
         <span className="stage-badge">Demo UX/UI · <b>marca ficticia</b></span>
@@ -55,8 +56,10 @@ export default function App() {
       <p className="stage-foot">
         Paso <b>{Math.min(idx + 1, 4)} de 4</b> · Este prototipo usa una marca inventada
         (<b>Quincena</b>) y datos ficticios. No representa ni se conecta con ninguna empresa real,
-        y los campos de código son solo decorativos para la demo.
+        y los campos de código son solo decorativos para la demo. Los logos de comercios
+        pertenecen a sus respectivos dueños y se usan solo como referencia visual.
       </p>
     </div>
+    </MotionConfig>
   )
 }

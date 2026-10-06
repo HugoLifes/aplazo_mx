@@ -1,10 +1,13 @@
 // Pantalla de BIENVENIDA.
 // ¿Cambiar textos, beneficios o la prueba social? -> edita src/content.js (sección "welcome").
-// ¿Cambiar el diseño (colores, tamaños)? -> edita src/styles.css (busca ".hero-" y ".feat-").
+// ¿Cambiar el diseño (colores, tamaños)? -> edita src/styles.css (busca ".hero-", ".feat-" y ".marquee").
 import { motion } from 'framer-motion'
 import Logo from '../components/Logo.jsx'
 import { Arrow, Icon } from '../components/Icons.jsx'
-import { welcome } from '../content.js'
+import MerchantLogo from '../components/MerchantLogo.jsx'
+import { welcome, comercios } from '../content.js'
+
+const tiendas = comercios.filter((c) => c.catalogo !== false)
 
 export default function Welcome({ onNext }) {
   return (
@@ -53,6 +56,24 @@ export default function Welcome({ onNext }) {
             <div><b>{f.titulo}</b><span>{f.sub}</span></div>
           </motion.div>
         ))}
+      </div>
+
+      {/* Tira animada de logos de tiendas asociadas */}
+      <div className="marquee" aria-label={welcome.tiendasTitulo}>
+        <span className="marquee-title">{welcome.tiendasTitulo}</span>
+        <div className="marquee-mask">
+          <motion.div
+            className="marquee-track"
+            animate={{ x: ['0%', '-50%'] }}
+            transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+          >
+            {[...tiendas, ...tiendas].map((m, i) => (
+              <span key={i} className="marquee-item" aria-hidden={i >= tiendas.length}>
+                <MerchantLogo id={m.id} size="chip" />
+              </span>
+            ))}
+          </motion.div>
+        </div>
       </div>
 
       <div className="trust">

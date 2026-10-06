@@ -1,118 +1,142 @@
 // Pantalla de DASHBOARD.
-// ¿Cambiar montos, tarjeta, planes, movimientos? -> edita src/content.js (sección "dashboard").
-// ¿Cambiar el diseño? -> edita src/styles.css (busca ".credit-card", ".quick", ".plan", ".tx").
-import { useState } from 'react'
+// ¿Cambiar montos, tarjeta, compras, tiendas, movimientos? -> edita src/content.js ("dashboard" y "comercios").
+// ¿Cambiar el diseño? -> edita src/styles.css (busca ".credit-card", ".quick", ".pay-card", ".purchase", ".merchant", ".tx").
+// Las piezas visuales viven en src/components/ (CreditCard, QuickAction, PaymentCard, …).
+import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Icon, Chart, Home, User, Plus, Wallet, Bell, Flame, Calendar } from '../components/Icons.jsx'
-import { dashboard as d } from '../content.js'
+import { Chart, Home, User, Plus, Wallet, Bell, Flame } from '../components/Icons.jsx'
+import CreditCard from '../components/CreditCard.jsx'
+import QuickAction from '../components/QuickAction.jsx'
+import PaymentCard from '../components/PaymentCard.jsx'
+import PurchaseCard from '../components/PurchaseCard.jsx'
+import MerchantCard from '../components/MerchantCard.jsx'
+import MovementItem from '../components/MovementItem.jsx'
+import SectionHeader from '../components/SectionHeader.jsx'
+import { dashboard as d, comercios } from '../content.js'
+
+const tiendas = comercios.filter((c) => c.catalogo !== false)
+const categorias = [d.tiendasFiltroTodas, ...new Set(tiendas.map((c) => c.categoria))]
 
 export default function Dashboard({ onRestart }) {
-  const [tab, setTab] = useState('Compras')
   const tabs = Object.keys(d.movimientos)
+  const [tab, setTab] = useState(tabs[0])
+  const [nav, setNav] = useState('inicio')
+  const [cat, setCat] = useState(d.tiendasFiltroTodas)
+  const [showAll, setShowAll] = useState(false)
+
+  // Secciones a las que se puede saltar (acciones rápidas, "Ver pagos", barra inferior)
+  const bodyRef = useRef(null)
+  const refs = { tarjeta: useRef(null), compras: useRef(null), tiendas: useRef(null), movimientos: useRef(null) }
+
+  const scrollTo = (key) => {
+    const body = bodyRef.current
+    if (!body) return
+    const el = key === 'top' ? null : refs[key]?.current
+    const top = el ? body.scrollTop + el.getBoundingClientRect().top - body.getBoundingClientRect().top - 12 : 0
+    body.scrollTo({ top, behavior: 'smooth' })
+  }
+
+  // 'pagos' y 'compras' de los movimientos abren su pestaña antes de desplazarse
+  const goTo = (destino) => {
+    if (destino === 'pagos' && d.movimientos.Pagos) { setTab('Pagos'); scrollTo('movimientos') }
+    else if (destino === 'actividad') { setTab(tabs[0]); scrollTo('movimientos') }
+    else scrollTo(destino)
+  }
+
+  const filtradas = cat === d.tiendasFiltroTodas ? tiendas : tiendas.filter((c) => c.categoria === cat)
+  const visibles = showAll || cat !== d.tiendasFiltroTodas ? filtradas : filtradas.slice(0, d.tiendasIniciales)
+
+  const navItems = [
+    { id: 'inicio', label: 'Inicio', icon: Home, to: 'top' },
+    { id: 'actividad', label: 'Actividad', icon: Chart, to: 'actividad' },
+    { id: 'fab', icon: Plus, to: 'tiendas', fab: true },
+    { id: 'pagos', label: 'Pagos', icon: Wallet, to: 'pagos' },
+    { id: 'perfil', label: 'Perfil', icon: User, to: 'tarjeta' },
+  ]
 
   return (
     <>
-      <div className="screen-body">
+      <div className="screen-body dash" ref={bodyRef}>
         {/* Encabezado */}
         <div className="dash-head">
           <div className="hi">
             <div className="ava">{d.inicialAvatar}</div>
             <div>
-              <span style={{ fontSize: 13, color: 'var(--txt-faint)' }}>{d.saludo}</span>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 19, fontWeight: 700, lineHeight: 1.1 }}>{d.nombre}</div>
-              <span className="streak"><Flame style={{ width: 12, height: 12 }} /> {d.racha}</span>
+              <span className="hello">{d.saludo}</span>
+              <div className="name">{d.nombre}</div>
             </div>
           </div>
           <div className="tools">
-            <div className="icon-btn"><Bell /><span className="dot" /></div>
+            <motion.button type="button" className="icon-btn" aria-label="Notificaciones" whileTap={{ scale: 0.92 }}>
+              <Bell /><span className="dot" />
+            </motion.button>
+          </div>
+        </div>
+        <span className="streak"><Flame style={{ width: 12, height: 12 }} /> {d.racha}</span>
+
+        {/* Tarjeta de crédito */}
+        <div ref={refs.tarjeta} className="dash-block">
+          <CreditCard data={d.tarjeta} />
+        </div>
+
+        {/* Accesos rápidos */}
+        <div className="quick-row" aria-label={d.accionesTitulo}>
+          {d.acciones.map((q, i) => (
+            <QuickAction key={i} action={q} delay={0.12 + i * 0.05} onClick={() => goTo(q.destino)} />
+          ))}
+        </div>
+
+        {/* Próximo pago */}
+        <PaymentCard data={d.proximoPago} onSeePayments={() => goTo('pagos')} />
+
+        {/* Tus compras (planes activos) */}
+        <div ref={refs.compras}>
+          <SectionHeader title={d.planesTitulo} action={d.planesVerTodos} onAction={() => goTo('actividad')} />
+          <div className="purchase-rail">
+            {d.planes.map((p, i) => <PurchaseCard key={i} plan={p} delay={0.12 + i * 0.07} />)}
           </div>
         </div>
 
-        {/* Tarjeta de crédito */}
-        <motion.div className="credit-card" style={{ marginTop: 16 }} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="cc-brand">
-            {d.tarjeta.marca}
-            <span className="cc-waves"><b /><b /><b /></span>
-          </div>
-          <div className="cc-top">
-            <div>
-              <div className="cc-label">{d.tarjeta.etiqueta}</div>
-              <div className="cc-amount">{d.tarjeta.monto}</div>
-              <div className="cc-sub">{d.tarjeta.sub}</div>
-            </div>
-          </div>
-          <div className="cc-meter">
-            <div className="bar"><motion.i initial={{ width: 0 }} animate={{ width: `${d.tarjeta.porcentajeUsado}%` }} transition={{ delay: 0.3, duration: 0.8 }} /></div>
-            <div className="row"><span>{d.tarjeta.usado}</span><span>{d.tarjeta.libre}</span></div>
-          </div>
-          <div className="cc-number">
-            {d.tarjeta.numero.map((n, i) => <span key={i}>{n}</span>)}
-          </div>
-          <div className="cc-foot">
-            <div><div className="k">{d.tarjeta.titularEtiqueta}</div><div className="v">{d.tarjeta.titular}</div></div>
-            <div><div className="k">{d.tarjeta.desdeEtiqueta}</div><div className="v">{d.tarjeta.desde}</div></div>
-          </div>
-        </motion.div>
-
         {/* Insight */}
-        <motion.div className="insight" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+        <motion.div className="insight" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
           <div className="spark-ic"><Chart style={{ width: 20, height: 20 }} /></div>
           <p>{d.insight}</p>
         </motion.div>
 
-        {/* Próximo pago */}
-        <motion.div className="next-pay" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.28 }}>
-          <div className="np-ic"><Calendar /></div>
-          <div className="np-meta">
-            <b>{d.proximoPago.titulo}</b>
-            <span>{d.proximoPago.sub}</span>
+        {/* Tiendas asociadas */}
+        <div ref={refs.tiendas}>
+          <SectionHeader
+            title={d.tiendasTitulo}
+            sub={d.tiendasSub}
+            action={cat === d.tiendasFiltroTodas && tiendas.length > d.tiendasIniciales ? (showAll ? d.tiendasVerMenos : d.tiendasVerTodas) : null}
+            onAction={() => setShowAll((v) => !v)}
+          />
+          <div className="chips" role="tablist">
+            {categorias.map((c) => (
+              <button key={c} type="button" role="tab" aria-selected={cat === c} className={cat === c ? 'on' : ''} onClick={() => setCat(c)}>
+                {c}
+              </button>
+            ))}
           </div>
-          <button className="np-cta">{d.proximoPago.boton}</button>
-        </motion.div>
-
-        {/* Accesos rápidos */}
-        <div className="section-title"><h3>{d.accionesTitulo}</h3></div>
-        <div className="quick-grid">
-          {d.acciones.map((q, i) => (
-            <motion.div key={i} className="quick" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.06 }}>
-              <div className={`ic ${q.color}`}><Icon name={q.icon} /></div>
-              <div><b>{q.titulo}</b><br /><span>{q.sub}</span></div>
-            </motion.div>
-          ))}
+          <div className="merchant-grid">
+            {visibles.map((m, i) => <MerchantCard key={m.id} merchant={m} delay={Math.min(i, 6) * 0.04} />)}
+          </div>
         </div>
-
-        {/* Planes activos */}
-        <div className="section-title">
-          <h3>{d.planesTitulo}</h3>
-          <a>{d.planesVerTodos}</a>
-        </div>
-        {d.planes.map((p, i) => (
-          <motion.div key={i} className="plan" initial={{ opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.12 + i * 0.07 }}>
-            <div className="logo-dot" style={{ background: p.color, color: p.tinta || '#fff' }}>{p.inicial}</div>
-            <div className="meta">
-              <b>{p.nombre}</b>
-              <span>{p.pagados} de {p.total} pagos · próximo {p.fecha}</span>
-              <div className="pbar"><i style={{ width: `${(p.pagados / p.total) * 100}%` }} /></div>
-            </div>
-            <div className="amt"><b>{p.proximo}</b><span>próximo</span></div>
-          </motion.div>
-        ))}
 
         {/* Movimientos con pestañas */}
-        <div className="section-title" style={{ marginBottom: 0 }}><h3>{d.movimientosTitulo}</h3></div>
-        <div className="seg">
-          {tabs.map((k) => (
-            <button key={k} className={tab === k ? 'on' : ''} onClick={() => setTab(k)}>{k}</button>
-          ))}
-        </div>
-        <div>
-          {d.movimientos[tab].map((m, i) => (
-            <motion.div key={m.titulo + i} className="tx" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.05 }}>
-              <div className="tx-ic">{m.emoji}</div>
-              <div className="tx-meta"><b>{m.titulo}</b><span>{m.sub}</span></div>
-              <div className={`tx-amt ${m.entrada ? 'in' : ''}`}>{m.monto}</div>
-            </motion.div>
-          ))}
+        <div ref={refs.movimientos}>
+          <SectionHeader title={d.movimientosTitulo} />
+          <div className="seg">
+            {tabs.map((k) => (
+              <button key={k} type="button" className={tab === k ? 'on' : ''} onClick={() => setTab(k)}>
+                {tab === k && <motion.span layoutId="seg-pill" className="seg-pill" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />}
+                <span>{k}</span>
+              </button>
+            ))}
+          </div>
+          <div className="tx-list">
+            {d.movimientos[tab].map((m, i) => <MovementItem key={tab + i} item={m} delay={i * 0.05} />)}
+          </div>
         </div>
 
         <button className="btn-link" style={{ width: '100%', marginTop: 16 }} onClick={onRestart}>
@@ -122,11 +146,18 @@ export default function Dashboard({ onRestart }) {
 
       {/* Barra inferior de navegación */}
       <nav className="tabbar">
-        <a className="active"><Home /><span>Inicio</span></a>
-        <a><Chart /><span>Actividad</span></a>
-        <a className="fab"><Plus /></a>
-        <a><Wallet /><span>Pagos</span></a>
-        <a><User /><span>Perfil</span></a>
+        {navItems.map(({ id, label, icon: Ico, to, fab }) => (
+          <motion.button
+            key={id}
+            type="button"
+            className={fab ? 'fab' : nav === id ? 'active' : ''}
+            aria-label={label || 'Comprar'}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => { if (!fab) setNav(id); goTo(to) }}
+          >
+            <Ico />{label && <span>{label}</span>}
+          </motion.button>
+        ))}
       </nav>
     </>
   )
