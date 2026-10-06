@@ -28,8 +28,8 @@ Prototipo de interfaz (solo diseño) de una app ficticia de **BNPL** ("compra ho
 
 ## Diseño
 
-- Paleta violeta / lima sobre fondo *plum* oscuro.
-- Glassmorphism, luz ambiental animada y grano sutil.
+- Tema claro: navy `#151537` (primario) + cian `#68D7E8` (acento) sobre fondo blanco.
+- Tarjetas limpias, luz ambiental sutil y acentos en morado/verde.
 - Tipografías *Space Grotesk* (display) + *Plus Jakarta Sans*.
 - Micro-interacciones con Framer Motion.
 - Patrones de fintech 2026: onboarding por pasos, dashboard accionable, gradientes suaves y tipografía fuerte.

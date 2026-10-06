@@ -43,7 +43,7 @@ export default function PhoneStep({ phone, setPhone, onBack, onNext }) {
       </div>
 
       <div className="feat-row" style={{ marginTop: 6 }}>
-        <div className="fi" style={{ color: '#c6f560' }}><Shield /></div>
+        <div className="fi" style={{ color: '#76c9a8' }}><Shield /></div>
         <div>
           <b>{t.seguridadTitulo}</b>
           <span>{t.seguridadSub}</span>
