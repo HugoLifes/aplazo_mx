@@ -25,6 +25,16 @@ ignoran. `Mercado Libre.png`, `mercado_libre.png` y `MercadoLibre.png` funcionan
 También se aceptan `.webp` y `.svg`.
 
 Para agregar un logo nuevo: copia el PNG aquí con el `id` del comercio como nombre.
+
+**Cambiar a otra versión de un logo** (ej. uno en blanco o actualizado) sin renombrar
+archivos: copia el nuevo PNG aquí y en `content.js → comercios` agrega `logo` a ese
+comercio:
+
+```js
+{ id: 'nike', logo: 'nike-2026.png', nombre: 'Nike', ... }
+```
+
+El logo de la marca propia (Quincena) se cambia aparte: ver [`../brand/`](../brand/README.md).
 Mientras falte un archivo, la app muestra un monograma neutro en su lugar.
 Los logos nunca se estiran: se pintan con `object-fit: contain` dentro de una caja
 de tamaño fijo, así que da igual si son horizontales o cuadrados. Recórtalos sin

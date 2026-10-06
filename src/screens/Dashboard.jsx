@@ -139,7 +139,7 @@ export default function Dashboard({ onRestart }) {
           </div>
         </div>
 
-        <button className="btn-link" style={{ width: '100%', marginTop: 16 }} onClick={onRestart}>
+        <button className="btn-link dash-restart" onClick={onRestart}>
           {d.botonReiniciar}
         </button>
       </div>

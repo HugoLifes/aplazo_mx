@@ -22,11 +22,13 @@ export default function PhoneStep({ phone, setPhone, onBack, onNext }) {
     <div className="screen-body">
       <div className="progress"><i className="on" /><i className="on" /><i /><i /></div>
 
-      <span className="eyebrow">{t.paso}</span>
-      <h2 className="display" style={{ marginTop: 8, whiteSpace: 'pre-line' }}>{t.titulo}</h2>
-      <p className="lead" style={{ marginTop: 10 }}>{t.descripcion}</p>
+      <header className="screen-head">
+        <span className="eyebrow">{t.paso}</span>
+        <h2 className="display">{t.titulo}</h2>
+        <p className="lead">{t.descripcion}</p>
+      </header>
 
-      <div style={{ marginTop: 26 }}>
+      <div className="form-block">
         <div className="field">
           <label>{t.etiquetaCampo}</label>
           <div className="phone-input">
@@ -42,7 +44,7 @@ export default function PhoneStep({ phone, setPhone, onBack, onNext }) {
         </div>
       </div>
 
-      <div className="feat-row" style={{ marginTop: 6 }}>
+      <div className="feat-row">
         <div className="fi" style={{ color: '#76c9a8' }}><Shield /></div>
         <div>
           <b>{t.seguridadTitulo}</b>
@@ -51,12 +53,14 @@ export default function PhoneStep({ phone, setPhone, onBack, onNext }) {
       </div>
 
       <div className="spacer" />
-      <button className="btn" disabled={!valid} onClick={onNext}>
-        {t.botonPrincipal} <Arrow />
-      </button>
-      <button className="btn-link" style={{ marginTop: 8, width: '100%' }} onClick={onBack}>
-        {t.botonRegresar}
-      </button>
+      <div className="cta-bar">
+        <button className="btn" disabled={!valid} onClick={onNext}>
+          {t.botonPrincipal} <Arrow />
+        </button>
+        <button className="btn-link" onClick={onBack}>
+          {t.botonRegresar}
+        </button>
+      </div>
     </div>
   )
 }

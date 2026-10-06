@@ -22,6 +22,14 @@ export const brand = {
   // "Quin" + "cena"  ->  Quincena
   nombre1: 'Quin',
   nombre2: 'cena',
+
+  // Logos de la marca (opcionales). Copia tus archivos en  src/assets/brand/
+  // y escribe aquí el NOMBRE del archivo (con o sin extensión).
+  // Vacío ('') = se usa el símbolo original dibujado en código.
+  // Puedes tener varias versiones en la carpeta y cambiar entre ellas solo editando aquí.
+  simbolo: '',          // ícono cuadrado (va sobre fondo oscuro): app, tarjeta, cashback. Ej. 'simbolo.png'
+  logo: '',             // logo completo horizontal (sobre fondo claro): reemplaza ícono + nombre arriba. Ej. 'logo.svg'
+  logoTarjeta: '',      // versión clara del logo para la tarjeta oscura (si falta, usa símbolo + nombre)
 }
 
 // ---- Pantalla 1: Bienvenida ------------------------------------------------
@@ -93,6 +101,8 @@ export const otp = {
 
 // ---- Comercios (tiendas asociadas) ----------------------------------------
 //  id          -> nombre del archivo del logo en src/assets/logos/ (ej. 'nike' -> nike.png)
+//  logo        -> (opcional) archivo concreto a usar, para cambiar de versión sin renombrar:
+//                 ej. logo: 'nike-blanco.png'. Si falta, se busca <id>.png
 //  alias       -> otros nombres de archivo aceptados para ese logo (opcional)
 //  categoria   -> se usa para los filtros de "Tiendas" en el dashboard
 //  beneficio   -> texto corto bajo el logo en la tarjeta de la tienda

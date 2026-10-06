@@ -2,7 +2,7 @@
 // ¿Cambiar textos, beneficios o la prueba social? -> edita src/content.js (sección "welcome").
 // ¿Cambiar el diseño (colores, tamaños)? -> edita src/styles.css (busca ".hero-", ".feat-" y ".marquee").
 import { motion } from 'framer-motion'
-import Logo from '../components/Logo.jsx'
+import Logo, { BrandMark } from '../components/Logo.jsx'
 import { Arrow, Icon } from '../components/Icons.jsx'
 import MerchantLogo from '../components/MerchantLogo.jsx'
 import { welcome, comercios } from '../content.js'
@@ -12,7 +12,7 @@ const tiendas = comercios.filter((c) => c.catalogo !== false)
 export default function Welcome({ onNext }) {
   return (
     <div className="screen-body">
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 6 }}>
+      <div className="welcome-logo">
         <Logo size="lg" />
       </div>
 
@@ -24,10 +24,7 @@ export default function Welcome({ onNext }) {
           animate={{ y: [0, -10, 0] }}
           transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2a10 10 0 100 20 10 10 0 00-6-18" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
-            <circle cx="12" cy="12" r="3.6" fill="#68d7e8" />
-          </svg>
+          <BrandMark size={52} />
         </motion.div>
         <motion.div className="hero-chip c1" animate={{ y: [0, -7, 0] }} transition={{ duration: 3, repeat: Infinity }}>
           <span className="d" style={{ background: '#68d7e8' }} /> {welcome.chipArriba}
@@ -37,13 +34,13 @@ export default function Welcome({ onNext }) {
         </motion.div>
       </div>
 
-      <div style={{ textAlign: 'center', marginTop: 4 }}>
-        {/* El título puede tener un salto de línea con \n en content.js */}
-        <h2 className="display" style={{ whiteSpace: 'pre-line' }}>{welcome.titulo}</h2>
-        <p className="lead" style={{ marginTop: 10 }}>{welcome.descripcion}</p>
-      </div>
+      {/* El título puede tener un salto de línea con \n en content.js */}
+      <header className="screen-head center">
+        <h2 className="display">{welcome.titulo}</h2>
+        <p className="lead">{welcome.descripcion}</p>
+      </header>
 
-      <div style={{ margin: '18px 0 4px' }}>
+      <div className="feat-list">
         {welcome.beneficios.map((f, i) => (
           <motion.div
             key={i}
@@ -77,7 +74,7 @@ export default function Welcome({ onNext }) {
       </div>
 
       <div className="trust">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div className="trust-users">
           <div className="avatars">
             <i style={{ background: 'linear-gradient(135deg,#151537,#3a3a7a)' }} />
             <i style={{ background: 'linear-gradient(135deg,#b8a9ed,#d0c5f5)' }} />
@@ -90,10 +87,12 @@ export default function Welcome({ onNext }) {
       </div>
 
       <div className="spacer" />
-      <button className="btn" onClick={onNext}>{welcome.botonPrincipal} <Arrow /></button>
-      <button className="btn-link" style={{ marginTop: 8, width: '100%' }}>
-        {welcome.botonSecundario}<b>{welcome.botonSecundarioResalte}</b>
-      </button>
+      <div className="cta-bar">
+        <button className="btn" onClick={onNext}>{welcome.botonPrincipal} <Arrow /></button>
+        <button className="btn-link">
+          {welcome.botonSecundario}<b>{welcome.botonSecundarioResalte}</b>
+        </button>
+      </div>
     </div>
   )
 }

@@ -36,6 +36,15 @@ Ahí encuentras, por secciones:
 
 ---
 
+## 🪪 Cambiar el LOGO de la marca (Quincena)
+
+👉 Copia tus archivos en **[`src/assets/brand/`](src/assets/brand/)** y en
+`content.js → brand` escribe el nombre del archivo en `simbolo`, `logo` o `logoTarjeta`.
+Vacío = símbolo original. Detalle de cada campo en
+[`src/assets/brand/README.md`](src/assets/brand/README.md).
+
+---
+
 ## 🏬 Agregar o cambiar LOGOS de tiendas
 
 👉 Copia el PNG (fondo transparente) en **[`src/assets/logos/`](src/assets/logos/)**.
@@ -46,6 +55,7 @@ Se carga solo: el nombre del archivo debe coincidir con el `id` del comercio en
 - Para que una compra, el próximo pago o un movimiento muestre un logo, pon
   `comercio: '<id>'` en ese bloque de `content.js`.
 - Para agregar una tienda nueva: copia un bloque `{ id: ..., nombre: ... }` en `comercios`.
+- Para usar otra versión de un logo sin renombrar: agrega `logo: 'archivo.png'` al comercio.
 - Sin PNG todavía → se ve un monograma o el nombre en gris (nada se rompe).
 
 ---
@@ -56,6 +66,8 @@ Se carga solo: el nombre del archivo debe coincidir con el `id` del comercio en
 
 - Cambia un color (ej. `--violet: #7c6cff;`) y **toda** la app se re-colorea sola.
 - `--violet` = color principal · `--lime` = color de acento · `--bg-1` = fondo del teléfono.
+- **Espaciado:** `--space-1` … `--space-8` (4px a 40px). Toda la separación entre
+  textos, botones y tarjetas usa esa escala: súbela o bájala y todo respira parejo.
 
 ---
 
@@ -103,7 +115,8 @@ El orden del flujo (qué pantalla sigue a cuál) está en [`src/App.jsx`](src/Ap
   función `verify()` (los números en milisegundos).
 - **Agregar/quitar un beneficio, acción, plan o movimiento:** copia un bloque
   `{ ... }` dentro de su lista en `content.js` (respeta las comas).
-- **Cambiar el ícono de la marca:** [`src/components/Logo.jsx`](src/components/Logo.jsx).
+- **Cambiar el ícono de la marca:** sin código, con `brand.simbolo` (ver arriba). El símbolo
+  de respaldo dibujado en código está en [`src/components/Logo.jsx`](src/components/Logo.jsx).
 
 ---
 

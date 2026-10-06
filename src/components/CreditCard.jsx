@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { BrandMark } from './Logo.jsx'
+import { brandCardLogoUrl, brandName } from '../lib/brand.js'
 
 const ease = [0.22, 1, 0.36, 1]
 
@@ -30,7 +31,9 @@ export default function CreditCard({ data: t }) {
       />
 
       <div className="cc-row">
-        <span className="cc-brand"><BrandMark size={16} /> {t.marca}</span>
+        {brandCardLogoUrl
+          ? <img className="cc-brand-img" src={brandCardLogoUrl} alt={brandName} />
+          : <span className="cc-brand"><BrandMark size={16} /> {t.marca}</span>}
         <span className="cc-waves" aria-hidden="true"><b /><b /><b /></span>
       </div>
 

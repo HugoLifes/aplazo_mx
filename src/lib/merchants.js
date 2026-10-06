@@ -6,7 +6,7 @@ import { comercios } from '../content.js'
 const files = import.meta.glob('../assets/logos/*.{png,webp,svg}', { eager: true, import: 'default' })
 
 // 'Mercado Libre.png', 'mercado_libre.png' y 'mercado-libre.png' -> 'mercadolibre'
-const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '')
+const norm = (s) => s.replace(/\.(png|webp|svg)$/i, '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '')
 
 const LOGOS = {}
 for (const [path, url] of Object.entries(files)) {
@@ -19,9 +19,10 @@ export function getMerchant(id) {
   return BY_ID[id] || { id, nombre: id || '' }
 }
 
+// Orden de búsqueda: `logo` (archivo elegido a mano en content.js) -> id -> alias
 export function getLogoUrl(id) {
   const m = getMerchant(id)
-  for (const key of [m.id, ...(m.alias || [])]) {
+  for (const key of [m.logo, m.id, ...(m.alias || [])]) {
     if (key && LOGOS[norm(key)]) return LOGOS[norm(key)]
   }
   return null

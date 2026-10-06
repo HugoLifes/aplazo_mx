@@ -4,6 +4,7 @@ import Welcome from './screens/Welcome.jsx'
 import PhoneStep from './screens/PhoneStep.jsx'
 import OtpStep from './screens/OtpStep.jsx'
 import Dashboard from './screens/Dashboard.jsx'
+import { brandName } from './lib/brand.js'
 
 const STEPS = ['welcome', 'phone', 'otp', 'dashboard']
 
@@ -26,7 +27,7 @@ export default function App() {
     <div className="stage">
       <div className="stage-head">
         <span className="stage-badge">Demo UX/UI · <b>marca ficticia</b></span>
-        <h1>Quincena — Flujo de onboarding &amp; dashboard</h1>
+        <h1>{brandName} — Flujo de onboarding &amp; dashboard</h1>
         <p>Prototipo de interfaz. Datos de muestra, sin conexión a ningún servicio real.</p>
       </div>
 
@@ -34,7 +35,7 @@ export default function App() {
         <div className="phone-screen">
           <div className="status-bar">
             <span>9:41</span>
-            <span className="dots"><i /><i /><i /> &nbsp;Quincena</span>
+            <span className="dots"><i /><i /><i /> &nbsp;{brandName}</span>
             <span>100%</span>
           </div>
           <AnimatePresence mode="wait">
@@ -55,7 +56,7 @@ export default function App() {
 
       <p className="stage-foot">
         Paso <b>{Math.min(idx + 1, 4)} de 4</b> · Este prototipo usa una marca inventada
-        (<b>Quincena</b>) y datos ficticios. No representa ni se conecta con ninguna empresa real,
+        (<b>{brandName}</b>) y datos ficticios. No representa ni se conecta con ninguna empresa real,
         y los campos de código son solo decorativos para la demo. Los logos de comercios
         pertenecen a sus respectivos dueños y se usan solo como referencia visual.
       </p>

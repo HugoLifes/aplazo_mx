@@ -77,11 +77,13 @@ export default function OtpStep({ phone, onBack, onNext }) {
     <div className="screen-body">
       <div className="progress"><i className="on" /><i className="on" /><i className="on" /><i /></div>
 
-      <span className="eyebrow">{t.paso}</span>
-      <h2 className="display" style={{ marginTop: 8, whiteSpace: 'pre-line' }}>{t.titulo}</h2>
-      <p className="lead" style={{ marginTop: 10 }}>{descripcion}</p>
+      <header className="screen-head">
+        <span className="eyebrow">{t.paso}</span>
+        <h2 className="display">{t.titulo}</h2>
+        <p className="lead">{descripcion}</p>
+      </header>
 
-      <div className="otp-row" style={{ marginTop: 28 }}>
+      <div className="otp-row">
         {code.map((c, i) => (
           <input
             key={i}
@@ -97,7 +99,7 @@ export default function OtpStep({ phone, onBack, onNext }) {
         ))}
       </div>
 
-      <div style={{ textAlign: 'center', marginTop: 16 }}>
+      <div className="otp-resend">
         <span className="btn-link">{t.reenviar}<b>{t.reenviarTiempo}</b></span>
       </div>
 
@@ -111,15 +113,17 @@ export default function OtpStep({ phone, onBack, onNext }) {
       </div>
 
       <div className="spacer" />
-      <button className="btn ghost" style={{ marginBottom: 10 }} onClick={autofill}>
-        {t.botonRellenar}
-      </button>
-      <button className="btn" disabled={!filled} onClick={verify}>
-        {t.botonVerificar} <Arrow />
-      </button>
-      <button className="btn-link" style={{ marginTop: 8, width: '100%' }} onClick={onBack}>
-        {t.botonCambiar}
-      </button>
+      <div className="cta-bar">
+        <button className="btn ghost" onClick={autofill}>
+          {t.botonRellenar}
+        </button>
+        <button className="btn" disabled={!filled} onClick={verify}>
+          {t.botonVerificar} <Arrow />
+        </button>
+        <button className="btn-link" onClick={onBack}>
+          {t.botonCambiar}
+        </button>
+      </div>
     </div>
   )
 }
