@@ -1,26 +1,17 @@
-// Acceso rápido circular (Escanear, Comprar, Pagos…). Datos: dashboard.acciones
-import { motion } from 'framer-motion'
+// Acceso rápido (Escanear, Comprar, Pagos, Límite). Datos: dashboard.acciones
 import { Icon } from './Icons.jsx'
+import { fill } from '../lib/format.js'
 
-export default function QuickAction({ action: q, delay = 0, onClick }) {
+export default function QuickAction({ action: q, pendientes = 0, onClick }) {
+  const sub = fill(q.sub, { n: pendientes })
   return (
-    <motion.button
-      type="button"
-      className="quick"
-      onClick={onClick}
-      title={`${q.titulo} · ${q.sub}`}
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay }}
-      whileHover={{ y: -3 }}
-      whileTap={{ scale: 0.94 }}
-    >
+    <button type="button" className="quick" data-reveal onClick={onClick} title={`${q.titulo} · ${sub}`}>
       <span className={`ic ${q.color || ''}`}>
         <Icon name={q.icon} />
-        {q.badge ? <em>{q.badge}</em> : null}
+        {q.badge && pendientes > 0 ? <em key={pendientes}>{pendientes}</em> : null}
       </span>
       <b>{q.corto || q.titulo}</b>
-      <span className="sub">{q.sub}</span>
-    </motion.button>
+      <span className="sub">{sub}</span>
+    </button>
   )
 }

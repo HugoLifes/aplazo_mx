@@ -20,13 +20,23 @@ export const Bell = (p) => (<svg {...base} {...p}><path d="M6 9a6 6 0 0112 0c0 5
 export const Flame = (p) => (<svg {...base} {...p}><path d="M12 3c1 3 4 4 4 8a4 4 0 01-8 0c0-1.5.6-2.3 1.2-3C9 9 9 7.5 12 3z" /></svg>)
 export const Calendar = (p) => (<svg {...base} {...p}><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 9h18M8 3v4M16 3v4" /></svg>)
 
+export const Close = (p) => (<svg {...base} strokeWidth={2.2} {...p}><path d="M6 6l12 12M18 6L6 18" /></svg>)
+export const ChevronRight = (p) => (<svg {...base} strokeWidth={2.2} {...p}><path d="M9 6l6 6-6 6" /></svg>)
+export const Card = (p) => (<svg {...base} {...p}><rect x="2.5" y="5" width="19" height="14" rx="3" /><path d="M2.5 10h19M6.5 15h4" /></svg>)
+export const Copy = (p) => (<svg {...base} {...p}><rect x="8" y="8" width="12" height="12" rx="2.5" /><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2" /></svg>)
+export const Clock = (p) => (<svg {...base} {...p}><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>)
+export const Help = (p) => (<svg {...base} {...p}><circle cx="12" cy="12" r="9" /><path d="M9.5 9.5a2.5 2.5 0 114 2c-.9.6-1.5 1.1-1.5 2.2M12 17h.01" /></svg>)
+export const Logout = (p) => (<svg {...base} {...p}><path d="M15 4h3a2 2 0 012 2v12a2 2 0 01-2 2h-3M10 17l5-5-5-5M15 12H4" /></svg>)
+export const Message = (p) => (<svg {...base} {...p}><path d="M4 5h16a1 1 0 011 1v10a1 1 0 01-1 1H9l-5 4V6a1 1 0 011-1z" /></svg>)
+
 // Mapa de ícono por nombre: permite escribir 'bolt', 'cart', etc. en content.js.
 // <Icon name="bolt" /> pinta el ícono correspondiente.
 const MAP = {
   arrow: Arrow, check: Check, shield: Shield, bolt: Bolt, wallet: Wallet,
   cart: Cart, scan: Scan, plus: Plus, home: Home, chart: Chart, user: User,
   lock: Lock, phone: Phone, spark: Spark, gift: Gift, bell: Bell,
-  flame: Flame, calendar: Calendar,
+  flame: Flame, calendar: Calendar, close: Close, card: Card, copy: Copy,
+  clock: Clock, help: Help, logout: Logout, message: Message, chevron: ChevronRight,
 }
 export function Icon({ name, ...props }) {
   const Cmp = MAP[name] || Spark

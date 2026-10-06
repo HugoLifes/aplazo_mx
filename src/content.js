@@ -1,5 +1,5 @@
 // ============================================================================
-//  CONTENIDO EDITABLE  —  cambia aquí TODOS los textos y datos de la demo
+//  CONTENIDO EDITABLE  —  cambia aquí TODOS los textos y datos de la app
 // ============================================================================
 //
 //  👉 Esta es la zona segura para editar. Cambia textos, montos, nombres,
@@ -8,7 +8,7 @@
 //  - El texto va entre comillas: 'así'.  Puedes usar acentos y emojis. 🎉
 //  - Para un salto de línea dentro de un título usa \n  (ej: 'Hola\nmundo').
 //  - Los "icon" son NOMBRES de ícono. Íconos disponibles (en src/components/Icons.jsx):
-//      bolt, shield, gift, cart, scan, wallet, chart, spark, calendar, bell
+//      bolt, shield, gift, cart, scan, wallet, chart, spark, calendar, bell, card, help
 //  - Los "comercio" son el id de una tienda de la lista `comercios` (más abajo).
 //    Su logo sale de  src/assets/logos/<id>.png  (ver src/assets/logos/README.md).
 //  - NO borres las comas ni los corchetes [ ]  { }  — solo cambia lo de adentro.
@@ -55,7 +55,7 @@ export const welcome = {
   // Tira animada de logos (sale de la lista `comercios`)
   tiendasTitulo: 'Úsalo en tus tiendas favoritas',
 
-  botonPrincipal: 'Comenzar',
+  botonPrincipal: 'Crear cuenta',
   botonSecundario: '¿Ya tienes cuenta? ', // la palabra "Inicia sesión" se agrega en color aparte
   botonSecundarioResalte: 'Inicia sesión',
 }
@@ -64,31 +64,37 @@ export const welcome = {
 export const phone = {
   paso: 'Paso 1 de 3',
   titulo: '¿Cuál es tu\nnúmero?',
-  descripcion: 'Lo usamos para crear tu cuenta y mantenerla segura. Te enviaremos un código para confirmarlo.',
+  descripcion: 'Lo usamos para crear tu cuenta y mantenerla segura. Te enviaremos un código por SMS.',
   etiquetaCampo: 'Número de celular',
   bandera: '🇲🇽',
   lada: '+52',
   placeholder: '55 1234 5678',
+  digitos: 10,                       // largo del número (México = 10)
+  ayudaFaltan: 'Faltan {n} dígitos',
+  ayudaListo: 'Número válido',
   seguridadTitulo: 'Tus datos están protegidos',
   seguridadSub: 'Cifrado de extremo a extremo · nunca compartimos tu número',
+  terminos: 'Al continuar aceptas los Términos y el Aviso de privacidad.',
   botonPrincipal: 'Enviar código',
   botonRegresar: '← Regresar',
 }
 
-// ---- Pantalla 3: Verificación (código OTP, decorativo) ---------------------
+// ---- Pantalla 3: Verificación (código por SMS, simulado) -------------------
 export const otp = {
   paso: 'Paso 2 de 3',
   titulo: 'Verifica tu\nnúmero',
   // {telefono} se reemplaza por el número que escribió la persona
   descripcion: 'Escribe el código de 6 dígitos que enviamos al {telefono}.',
-  reenviar: 'Reenviar código en ',
-  reenviarTiempo: '0:28',
-  // Aviso de que es demo (importante mantenerlo para dejar claro que no es real)
-  demoEtiqueta: 'Demo:',
-  demoTexto: 'este campo es decorativo. No se envía ni se valida ningún código real. Toca ',
-  demoResalte: '“rellenar ejemplo”',
-  demoTextoFin: ' para continuar.',
-  botonRellenar: 'Rellenar ejemplo (demo)',
+  reenviarEn: 'Reenviar código en ',
+  reenviar: 'Reenviar código',
+  segundosReenvio: 30,
+  // Notificación de SMS que aparece arriba (tócala para rellenar el código)
+  smsApp: 'Mensajes',
+  smsAhora: 'ahora',
+  smsTexto: 'Quincena: tu código de verificación es {codigo}. No lo compartas con nadie.',
+  smsAccion: 'Toca para rellenar',
+  smsSegundos: 2.5,                  // cuánto tarda en "llegar" el SMS
+  error: 'El código no coincide. Revisa el SMS e inténtalo de nuevo.',
   botonVerificar: 'Verificar',
   botonCambiar: '← Cambiar número',
 
@@ -126,24 +132,32 @@ export const comercios = [
 ]
 
 // ---- Pantalla 4: Dashboard -------------------------------------------------
+//  Los montos van como NÚMEROS (sin $ ni comas): la app los formatea y los
+//  actualiza sola cuando pagas o compras.  Las fechas son RELATIVAS a hoy
+//  (enDias / haceDias) para que nunca se vean viejas.
+export const usuario = {
+  nombre: 'Daniela',
+  apellido: 'Ruiz',
+  nivel: 'Nivel Plata',
+}
+
 export const dashboard = {
-  saludo: 'Buenas tardes,',
-  nombre: 'Hola 👋',
-  inicialAvatar: 'Q',
-  racha: 'Racha de 6 pagos a tiempo',
+  // El saludo cambia solo según la hora
+  saludos: { manana: 'Buenos días', tarde: 'Buenas tardes', noche: 'Buenas noches' },
+  racha: 'Racha de {n} pagos a tiempo',
+  rachaInicial: 6,
 
   // Tarjeta de crédito
   tarjeta: {
     marca: 'quincena',
     etiqueta: 'Crédito disponible',
-    monto: '$6,255',
-    sub: 'de $8,000 · límite total',
-    usado: 'Usado $1,745',
-    libre: '78% libre',
-    porcentajeUsado: 78,          // 0 a 100 (llena la barra)
+    disponible: 6255,
+    limite: 8000,
+    subLimite: 'de {limite} · límite total',
+    usado: 'Usado {usado}',
+    libre: '{pct}% libre',
     numero: ['5412', '••••', '••••', '8842'],
     titularEtiqueta: 'Titular',
-    titular: 'Tu Nombre',
     desdeEtiqueta: 'Miembro desde',
     desde: '10/26',
     botonDetalle: 'Ver detalle',
@@ -153,37 +167,36 @@ export const dashboard = {
   // Tarjeta de "insight" (consejo)
   insight: 'Este mes gastas 18% menos que el anterior. ¡Vas por buen camino! 🎯',
 
-  // Próximo pago
+  // Próximo pago (se calcula solo: la compra con el pago más cercano)
   proximoPago: {
     titulo: 'Próximo pago',
-    comercio: 'liverpool',         // id de `comercios` (pinta su logo)
-    monto: '$625',
-    dia: '15',
-    mes: 'OCT',
-    sub: 'Pago 4 de 4 · vence el 15 de octubre',
-    botonSecundario: 'Ver pagos',  // lleva a Movimientos › Pagos
+    sub: 'Pago {n} de {total} · vence {fecha}',
+    botonSecundario: 'Ver pagos',
     boton: 'Pagar',
+    alDia: '¡Estás al día!',
+    alDiaSub: 'No tienes pagos pendientes.',
   },
 
-  // Accesos rápidos (4 cuadros)
+  // Accesos rápidos
   accionesTitulo: 'Acciones rápidas',
-  // corto   -> etiqueta bajo el ícono
-  // destino -> sección a la que lleva al tocarla: 'compras' | 'tiendas' | 'pagos' | 'tarjeta'
+  // accion -> qué abre: 'escanear' | 'tiendas' | 'pagos' | 'limite'
+  // en sub, {n} = número de pagos pendientes
   acciones: [
-    { icon: 'scan',   color: 'dark',  corto: 'Escanear', titulo: 'Escanear QR',      sub: 'Paga en tienda', destino: 'tiendas' },
-    { icon: 'cart',   color: 'lime',  corto: 'Comprar',  titulo: 'Comprar en línea', sub: 'Genera tu link', destino: 'tiendas' },
-    { icon: 'wallet', color: '',      corto: 'Pagos',    titulo: 'Mis pagos',        sub: '3 por vencer',   destino: 'pagos', badge: 3 },
-    { icon: 'spark',  color: 'coral', corto: 'Límite',   titulo: 'Sube tu límite',   sub: 'Hasta $12,000',  destino: 'tarjeta' },
+    { icon: 'scan',   color: 'dark',  corto: 'Escanear', titulo: 'Escanear QR',      sub: 'Paga en tienda', accion: 'escanear' },
+    { icon: 'cart',   color: 'lime',  corto: 'Comprar',  titulo: 'Comprar en línea', sub: 'Genera tu link', accion: 'tiendas' },
+    { icon: 'wallet', color: '',      corto: 'Pagos',    titulo: 'Mis pagos',        sub: '{n} por vencer', accion: 'pagos', badge: true },
+    { icon: 'spark',  color: 'coral', corto: 'Límite',   titulo: 'Sube tu límite',   sub: 'Hasta $12,000',  accion: 'limite' },
   ],
 
-  // Planes activos (compras a plazos en curso)
+  // Compras a plazos en curso
   planesTitulo: 'Tus compras',
   planesVerTodos: 'Ver todos',
-  // comercio -> id de `comercios` (logo). color/inicial = respaldo si no hay logo.
+  planLiquidado: 'Liquidado',
+  // comercio -> id de `comercios` (logo) · monto = cada pago · enDias = días para el próximo pago
   planes: [
-    { comercio: 'liverpool',     nombre: 'Liverpool',     color: '#e0457b', inicial: 'L', pagados: 3, total: 4, proximo: '$625', fecha: '15 oct' },
-    { comercio: 'mercado-libre', nombre: 'Mercado Libre', color: '#ffe600', tinta: '#3a3100', inicial: 'M', pagados: 1, total: 4, proximo: '$340', fecha: '22 oct' },
-    { comercio: 'nike',          nombre: 'Nike Store',    color: '#111',    inicial: 'N', pagados: 2, total: 4, proximo: '$780', fecha: '28 oct' },
+    { comercio: 'liverpool',     nombre: 'Liverpool',     color: '#e0457b', inicial: 'L', pagados: 3, total: 4, monto: 625, enDias: 9 },
+    { comercio: 'mercado-libre', nombre: 'Mercado Libre', color: '#ffe600', tinta: '#3a3100', inicial: 'M', pagados: 1, total: 4, monto: 340, enDias: 16 },
+    { comercio: 'nike',          nombre: 'Nike Store',    color: '#111',    inicial: 'N', pagados: 2, total: 4, monto: 780, enDias: 22 },
   ],
 
   // Tiendas asociadas (la lista sale de `comercios`, arriba)
@@ -192,24 +205,126 @@ export const dashboard = {
   tiendasFiltroTodas: 'Todas',
   tiendasVerTodas: 'Ver todas',
   tiendasVerMenos: 'Ver menos',
-  tiendasIniciales: 6,           // cuántas se ven antes de "Ver todas"
+  tiendasIniciales: 6,
 
   // Movimientos (con las dos pestañas)
-  // comercio -> id de `comercios` (logo); 'quincena' = marca propia. emoji = solo si no hay comercio.
+  // comercio -> id de `comercios` (logo); 'quincena' = marca propia
   // tipo     -> 'pago' (palomita) | 'cashback' (regalo) | sin tipo = compra
+  // haceDias -> 0 = hoy, 1 = ayer, etc.
   movimientosTitulo: 'Movimientos',
+  movimientosVacio: 'Aún no hay movimientos aquí.',
   movimientos: {
     Compras: [
-      { comercio: 'liverpool',     emoji: '🛍️', titulo: 'Liverpool',     sub: 'Hoy · 14:32',    monto: '-$2,500', entrada: false },
-      { comercio: 'nike',          emoji: '👟', titulo: 'Nike Store',    sub: 'Ayer · 19:05',   monto: '-$3,120', entrada: false },
-      { comercio: 'mercado-libre', emoji: '📦', titulo: 'Mercado Libre', sub: '28 sep · 11:20', monto: '-$1,360', entrada: false },
+      { comercio: 'liverpool',     titulo: 'Liverpool',     haceDias: 0, hora: '14:32', monto: -2500 },
+      { comercio: 'nike',          titulo: 'Nike Store',    haceDias: 1, hora: '19:05', monto: -3120 },
+      { comercio: 'mercado-libre', titulo: 'Mercado Libre', haceDias: 8, hora: '11:20', monto: -1360 },
     ],
     Pagos: [
-      { comercio: 'liverpool', tipo: 'pago',     emoji: '✅', titulo: 'Pago quincena',     sub: 'Liverpool · Hoy 09:00', monto: '-$625', entrada: false },
-      { comercio: 'quincena',  tipo: 'cashback', emoji: '🎁', titulo: 'Cashback Quincena', sub: '30 sep',      monto: '+$48',  entrada: true },
-      { comercio: 'nike',      tipo: 'pago',     emoji: '✅', titulo: 'Pago quincena',     sub: 'Nike Store · 15 sep',      monto: '-$780', entrada: false },
+      { comercio: 'liverpool', tipo: 'pago',     titulo: 'Pago quincena',     detalle: 'Liverpool',  haceDias: 0,  hora: '09:00', monto: -625 },
+      { comercio: 'quincena',  tipo: 'cashback', titulo: 'Cashback Quincena', detalle: '',           haceDias: 6,  hora: '10:15', monto: 48 },
+      { comercio: 'nike',      tipo: 'pago',     titulo: 'Pago quincena',     detalle: 'Nike Store', haceDias: 21, hora: '08:40', monto: -780 },
+    ],
+  },
+}
+
+// ---- Hojas (ventanas que suben desde abajo) ---------------------------------
+export const hojas = {
+  // Pagar una quincena
+  pagar: {
+    titulo: 'Pagar quincena',
+    metodoTitulo: 'Método de pago',
+    metodos: [
+      { id: 'debito', icon: 'card',   titulo: 'Tarjeta de débito',  sub: 'Débito •••• 4021' },
+      { id: 'spei',   icon: 'bolt',   titulo: 'Transferencia SPEI', sub: 'Se refleja al instante' },
+      { id: 'tienda', icon: 'wallet', titulo: 'Efectivo en tienda', sub: 'Con referencia de pago' },
+    ],
+    boton: 'Pagar {monto}',
+    procesando: 'Procesando pago…',
+    exito: '¡Pago realizado!',
+    exitoSub: 'Tu crédito disponible ya se actualizó.',
+    folio: 'Folio',
+    listo: 'Listo',
+  },
+
+  // Detalle de una compra a plazos
+  plan: {
+    total: 'Total de la compra',
+    calendario: 'Calendario de pagos',
+    pagado: 'Pagado',
+    proximo: 'Próximo',
+    pendiente: 'Pendiente',
+    adelantar: 'Adelantar pago de {monto}',
+    liquidado: 'Compra liquidada 🎉',
+  },
+
+  // Tienda: simulador de pagos + código de compra
+  tienda: {
+    simulador: '¿Cuánto vas a comprar?',
+    pagos: '4 pagos de',
+    sinInteres: '0% de interés · sin comisiones',
+    calendario: 'Así pagarías',
+    hoy: 'Hoy',
+    boton: 'Generar código de compra',
+    codigoTitulo: 'Tu código de compra',
+    codigoSub: 'Muéstralo en caja o pégalo en el checkout de {tienda}.',
+    vence: 'Vence en',
+    copiar: 'Copiar código',
+    copiado: '¡Copiado!',
+  },
+
+  // Escanear QR en tienda
+  escanear: {
+    titulo: 'Escanear para pagar',
+    apunta: 'Apunta al código QR de la caja',
+    buscando: 'Buscando código…',
+    detectado: 'Código detectado',
+    comercio: 'cinepolis',           // tienda que "detecta" el escáner
+    monto: 480,
+    concepto: 'Combo pareja + 2 boletos',
+    boton: 'Pagar en 4 quincenas',
+    procesando: 'Aprobando tu compra…',
+    exito: '¡Compra aprobada!',
+    exitoSub: 'Pagarás 4 quincenas de {pago}. El primer pago es en 14 días.',
+    listo: 'Listo',
+    sinCredito: 'No tienes crédito suficiente para esta compra.',
+  },
+
+  // Subir límite
+  limite: {
+    titulo: 'Sube tu límite',
+    sub: 'Cumple estos pasos y podrás llegar hasta',
+    objetivo: 12000,
+    pasos: [
+      { titulo: 'Paga a tiempo',           sub: '{racha} de 8 pagos puntuales', progreso: true },
+      { titulo: 'Verifica tu identidad',   sub: 'INE validada',                 hecho: true },
+      { titulo: 'Agrega tu correo',        sub: 'Para enviarte tus estados de cuenta', hecho: false },
+    ],
+    boton: 'Solicitar revisión',
+    enviado: 'Solicitud enviada',
+    enviadoSub: 'Te avisaremos en menos de 24 horas.',
+  },
+
+  // Notificaciones (campana)
+  notificaciones: {
+    titulo: 'Notificaciones',
+    marcarLeidas: 'Marcar como leídas',
+    vacio: 'Estás al día. No hay notificaciones nuevas.',
+    lista: [
+      { icon: 'calendar', titulo: 'Tu próximo pago se acerca', sub: 'Liverpool · vence en 9 días', hace: 'Hace 2 h' },
+      { icon: 'gift',     titulo: 'Ganaste $48 de cashback',  sub: 'Por pagar a tiempo 6 quincenas seguidas', hace: 'Ayer' },
+      { icon: 'cart',     titulo: 'Nuevo en Quincena',        sub: 'Cinépolis ya acepta pagos en quincenas', hace: 'Hace 3 días' },
     ],
   },
 
-  botonReiniciar: '↺ Reiniciar demo',
+  // Perfil
+  perfil: {
+    telefono: 'Teléfono',
+    opciones: [
+      { icon: 'card',   titulo: 'Métodos de pago',     sub: 'Débito •••• 4021' },
+      { icon: 'shield', titulo: 'Seguridad',           sub: 'Face ID activado' },
+      { icon: 'bell',   titulo: 'Notificaciones',      sub: 'Recordatorios de pago' },
+      { icon: 'help',   titulo: 'Ayuda',               sub: 'Chat 24/7' },
+    ],
+    cerrarSesion: 'Cerrar sesión',
+  },
 }

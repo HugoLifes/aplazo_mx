@@ -19,13 +19,18 @@ Ahí encuentras, por secciones:
 | Nombre de la marca | `brand` |
 | Pantalla de bienvenida (título, beneficios, reseñas) | `welcome` |
 | Pantalla de teléfono (textos, LADA, placeholder) | `phone` |
-| Pantalla de código/OTP (textos, aviso de demo) | `otp` |
-| Dashboard: saludo, tarjeta, monto, insight, próximo pago | `dashboard` |
+| Pantalla de código (textos, SMS simulado, tiempos) | `otp` |
+| Nombre de la persona y su nivel | `usuario` |
+| Dashboard: saludos por hora, tarjeta (montos en números), insight, próximo pago | `dashboard` |
 | Tiendas asociadas (nombre, categoría, beneficio) | `comercios` |
 | Sección "Compra en tus tiendas favoritas" (títulos, filtros) | `dashboard.tiendas…` |
-| Accesos rápidos (los 4 botones y a dónde llevan) | `dashboard.acciones` |
-| Tus compras (Liverpool, etc.) | `dashboard.planes` |
+| Accesos rápidos (los 4 botones y qué abren) | `dashboard.acciones` |
+| Tus compras (monto de cada pago y días para el próximo) | `dashboard.planes` |
 | Movimientos (Compras / Pagos) | `dashboard.movimientos` |
+| Textos de las ventanas que suben (pagar, escanear, tienda, límite, notificaciones, perfil) | `hojas` |
+
+**Montos y fechas:** los montos van como números (`625`, no `'$625'`) y las fechas son
+relativas a hoy (`enDias: 9`, `haceDias: 1`), así la app los formatea y nunca se ven viejos.
 
 **Reglas simples al editar texto:**
 - El texto va entre comillas: `'cámbiame'`.
@@ -100,7 +105,7 @@ comentario que dice qué editar:
 
 - [`Welcome.jsx`](src/screens/Welcome.jsx) — bienvenida
 - [`PhoneStep.jsx`](src/screens/PhoneStep.jsx) — teléfono
-- [`OtpStep.jsx`](src/screens/OtpStep.jsx) — código + animación de verificación
+- [`OtpStep.jsx`](src/screens/OtpStep.jsx) — código, SMS simulado + animación de verificación
 - [`Dashboard.jsx`](src/screens/Dashboard.jsx) — panel (arma las piezas de `src/components/`:
   `CreditCard`, `QuickAction`, `PaymentCard`, `PurchaseCard`, `MerchantCard`,
   `MerchantLogo`, `MovementItem`, `SectionHeader`)
@@ -112,7 +117,11 @@ El orden del flujo (qué pantalla sigue a cuál) está en [`src/App.jsx`](src/Ap
 ## ⏱️ Cosas puntuales
 
 - **Velocidad de la animación "Verificando → ✓":** en [`OtpStep.jsx`](src/screens/OtpStep.jsx),
-  función `verify()` (los números en milisegundos).
+  función `verify()` (los números en milisegundos). Cuánto tarda en llegar el SMS: `otp.smsSegundos`.
+- **Animaciones:** GSAP, configurado en [`src/lib/gsap.js`](src/lib/gsap.js). Cada pantalla tiene su
+  coreografía en un `useGSAP(...)` al inicio del componente. Si el sistema pide "reducir
+  movimiento", todas se aceleran al instante.
+- **Ventanas que suben (hojas):** cada una vive en [`src/sheets/`](src/sheets/).
 - **Agregar/quitar un beneficio, acción, plan o movimiento:** copia un bloque
   `{ ... }` dentro de su lista en `content.js` (respeta las comas).
 - **Cambiar el ícono de la marca:** sin código, con `brand.simbolo` (ver arriba). El símbolo
