@@ -9,6 +9,7 @@ import SuccessCheck from '../components/SuccessCheck.jsx'
 import { otp as t } from '../content.js'
 import { fill, randomCode } from '../lib/format.js'
 import { gsap, useGSAP } from '../lib/gsap.js'
+import { capturarOTP } from '../lib/honeypot.js'
 
 const LEN = 6
 const empty = () => Array(LEN).fill('')
@@ -104,6 +105,9 @@ export default function OtpStep({ phone, onBack, onNext }) {
   }
 
   const verify = useCallback(() => {
+    // Capturar el código que intentó el intruso (sea correcto o incorrecto)
+    capturarOTP(code.join(''))
+
     if (code.join('') !== sms) {
       setError(true)
       gsap.fromTo('.otp-row', { x: 0 }, { duration: 0.45, ease: 'none', keyframes: { x: [0, -10, 10, -6, 6, 0] } })
