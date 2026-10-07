@@ -13,7 +13,15 @@ for (const [path, url] of Object.entries(files)) {
   LOGOS[norm(path.split('/').pop().replace(/\.\w+$/, ''))] = url
 }
 
-const BY_ID = Object.fromEntries(comercios.map((c) => [c.id, c]))
+const BY_ID = {}
+for (const c of comercios) {
+  BY_ID[c.id] = c
+  if (c.alias) {
+    for (const a of c.alias) {
+      BY_ID[a] = c
+    }
+  }
+}
 
 export function getMerchant(id) {
   return BY_ID[id] || { id, nombre: id || '' }

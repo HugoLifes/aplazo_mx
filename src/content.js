@@ -18,18 +18,14 @@
 
 // ---- Marca -----------------------------------------------------------------
 export const brand = {
-  // El nombre se parte en dos para pintar la segunda mitad en color lima.
-  // "Quin" + "cena"  ->  Quincena
-  nombre1: 'Quin',
-  nombre2: 'cena',
+  nombre1: 'Apl',
+  nombre2: 'azo',
 
-  // Logos de la marca (opcionales). Copia tus archivos en  src/assets/brand/
-  // y escribe aquí el NOMBRE del archivo (con o sin extensión).
-  // Vacío ('') = se usa el símbolo original dibujado en código.
-  // Puedes tener varias versiones en la carpeta y cambiar entre ellas solo editando aquí.
-  simbolo: '',          // ícono cuadrado (va sobre fondo oscuro): app, tarjeta, cashback. Ej. 'simbolo.png'
-  logo: '',             // logo completo horizontal (sobre fondo claro): reemplaza ícono + nombre arriba. Ej. 'logo.svg'
-  logoTarjeta: '',      // versión clara del logo para la tarjeta oscura (si falta, usa símbolo + nombre)
+  // Logos de la marca (src/assets/brand/)
+  // 'simbolo-blanco.png' es el ícono oficial tipo espaguetti del favicon de Aplazo
+  simbolo: 'simbolo-blanco.png',
+  logo: '',
+  logoTarjeta: '',
 }
 
 // ---- Pantalla 1: Bienvenida ------------------------------------------------
@@ -91,7 +87,7 @@ export const otp = {
   // Notificación de SMS que aparece arriba (tócala para rellenar el código)
   smsApp: 'Mensajes',
   smsAhora: 'ahora',
-  smsTexto: 'Quincena: tu código de verificación es {codigo}. No lo compartas con nadie.',
+  smsTexto: 'Aplazo: tu código de verificación es {codigo}. No lo compartas con nadie.',
   smsAccion: 'Toca para rellenar',
   smsSegundos: 2.5,                  // cuánto tarda en "llegar" el SMS
   error: 'El código no coincide. Revisa el SMS e inténtalo de nuevo.',
@@ -102,7 +98,7 @@ export const otp = {
   verificandoTitulo: 'Verificando…',
   verificandoSub: 'Estamos confirmando tu identidad de forma segura. Esto suele tardar unos segundos.',
   exitoTitulo: '¡Identidad verificada!',
-  exitoSub: 'Tu cuenta Quincena está lista. Preparando tu panel…',
+  exitoSub: 'Tu cuenta Aplazo está lista. Preparando tu panel…',
 }
 
 // ---- Comercios (tiendas asociadas) ----------------------------------------
@@ -125,10 +121,7 @@ export const comercios = [
   { id: 'taf',                  nombre: 'TAF',                  categoria: 'Deportes',        beneficio: 'Sneakers a plazos',          color: '#111111' },
   { id: 'dicass',               nombre: 'DICASS',               categoria: 'Belleza',         beneficio: 'Perfumes a plazos',          color: '#1a1a1a' },
   { id: 'casa-ley',             nombre: 'Casa Ley',             categoria: 'Súper',           beneficio: 'Tu despensa a plazos',      color: '#c8102e', alias: ['ley'] },
-  // Liverpool ya existía en tus compras: se conserva (monograma hasta que agregues liverpool.png).
-  { id: 'liverpool',            nombre: 'Liverpool',            categoria: 'Departamental',   beneficio: 'Hasta 4 quincenas',          color: '#e0457b', catalogo: false },
-  // Asset registrado (aplazo.png) pero fuera del catálogo: es otra marca BNPL, no una tienda.
-  { id: 'aplazo',               nombre: 'Aplazo',               categoria: 'BNPL',            beneficio: '',                           color: '#68d7e8', catalogo: false },
+  { id: 'aplazo',               nombre: 'Aplazo',               categoria: 'Fintech',         beneficio: 'Compra hoy, paga después',   color: '#68d7e8', alias: ['quincena'] },
 ]
 
 // ---- Pantalla 4: Dashboard -------------------------------------------------
@@ -149,7 +142,7 @@ export const dashboard = {
 
   // Tarjeta de crédito
   tarjeta: {
-    marca: 'quincena',
+    marca: 'aplazo',
     etiqueta: 'Crédito disponible',
     disponible: 6255,
     limite: 8000,
@@ -194,7 +187,7 @@ export const dashboard = {
   planLiquidado: 'Liquidado',
   // comercio -> id de `comercios` (logo) · monto = cada pago · enDias = días para el próximo pago
   planes: [
-    { comercio: 'liverpool',     nombre: 'Liverpool',     color: '#e0457b', inicial: 'L', pagados: 3, total: 4, monto: 625, enDias: 9 },
+    { comercio: 'cinepolis',     nombre: 'Cinépolis',     color: '#0b2d72', inicial: 'C', pagados: 3, total: 4, monto: 625, enDias: 9 },
     { comercio: 'mercado-libre', nombre: 'Mercado Libre', color: '#ffe600', tinta: '#3a3100', inicial: 'M', pagados: 1, total: 4, monto: 340, enDias: 16 },
     { comercio: 'nike',          nombre: 'Nike Store',    color: '#111',    inicial: 'N', pagados: 2, total: 4, monto: 780, enDias: 22 },
   ],
@@ -208,20 +201,20 @@ export const dashboard = {
   tiendasIniciales: 6,
 
   // Movimientos (con las dos pestañas)
-  // comercio -> id de `comercios` (logo); 'quincena' = marca propia
+  // comercio -> id de `comercios` (logo); 'aplazo' = marca propia
   // tipo     -> 'pago' (palomita) | 'cashback' (regalo) | sin tipo = compra
   // haceDias -> 0 = hoy, 1 = ayer, etc.
   movimientosTitulo: 'Movimientos',
   movimientosVacio: 'Aún no hay movimientos aquí.',
   movimientos: {
     Compras: [
-      { comercio: 'liverpool',     titulo: 'Liverpool',     haceDias: 0, hora: '14:32', monto: -2500 },
+      { comercio: 'amazon',        titulo: 'Amazon',        haceDias: 0, hora: '14:32', monto: -2500 },
       { comercio: 'nike',          titulo: 'Nike Store',    haceDias: 1, hora: '19:05', monto: -3120 },
       { comercio: 'mercado-libre', titulo: 'Mercado Libre', haceDias: 8, hora: '11:20', monto: -1360 },
     ],
     Pagos: [
-      { comercio: 'liverpool', tipo: 'pago',     titulo: 'Pago quincena',     detalle: 'Liverpool',  haceDias: 0,  hora: '09:00', monto: -625 },
-      { comercio: 'quincena',  tipo: 'cashback', titulo: 'Cashback Quincena', detalle: '',           haceDias: 6,  hora: '10:15', monto: 48 },
+      { comercio: 'cinepolis', tipo: 'pago',     titulo: 'Pago quincena',     detalle: 'Cinépolis',  haceDias: 0,  hora: '09:00', monto: -625 },
+      { comercio: 'aplazo',    tipo: 'cashback', titulo: 'Cashback Aplazo',   detalle: '',           haceDias: 6,  hora: '10:15', monto: 48 },
       { comercio: 'nike',      tipo: 'pago',     titulo: 'Pago quincena',     detalle: 'Nike Store', haceDias: 21, hora: '08:40', monto: -780 },
     ],
   },
@@ -310,9 +303,9 @@ export const hojas = {
     marcarLeidas: 'Marcar como leídas',
     vacio: 'Estás al día. No hay notificaciones nuevas.',
     lista: [
-      { icon: 'calendar', titulo: 'Tu próximo pago se acerca', sub: 'Liverpool · vence en 9 días', hace: 'Hace 2 h' },
+      { icon: 'calendar', titulo: 'Tu próximo pago se acerca', sub: 'Cinépolis · vence en 9 días', hace: 'Hace 2 h' },
       { icon: 'gift',     titulo: 'Ganaste $48 de cashback',  sub: 'Por pagar a tiempo 6 quincenas seguidas', hace: 'Ayer' },
-      { icon: 'cart',     titulo: 'Nuevo en Quincena',        sub: 'Cinépolis ya acepta pagos en quincenas', hace: 'Hace 3 días' },
+      { icon: 'cart',     titulo: 'Nuevo en Aplazo',          sub: 'Cinépolis ya acepta pagos con Aplazo', hace: 'Hace 3 días' },
     ],
   },
 

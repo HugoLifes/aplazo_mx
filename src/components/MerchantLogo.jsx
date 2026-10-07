@@ -5,14 +5,13 @@ import { getLogoUrl, getMerchant } from '../lib/merchants.js'
 import { BrandMark } from './Logo.jsx'
 
 // size: 'xs' (movimientos), 'sm' (compras), 'md' (próximo pago),
-//       'chip' (tira de bienvenida), 'fill' (ocupa la caja de su contenedor)
 export default function MerchantLogo({ id, size = 'sm', fallback }) {
-  if (id === 'quincena') {
-    return <span className={`mlogo mlogo--${size} mlogo--brand`}><BrandMark size={size === 'xs' ? 18 : 22} /></span>
-  }
-
   const m = getMerchant(id)
   const src = getLogoUrl(id)
+
+  if (!src && id === 'quincena') {
+    return <span className={`mlogo mlogo--${size} mlogo--brand`}><BrandMark size={size === 'xs' ? 18 : 22} /></span>
+  }
 
   return (
     <span className={`mlogo mlogo--${size}${src ? '' : ' mlogo--empty'}`}>
