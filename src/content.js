@@ -38,7 +38,6 @@ export const welcome = {
   // Lista de beneficios (puedes agregar o quitar bloques { ... })
   beneficios: [
     { icon: 'bolt',   titulo: 'Aprobación en segundos',          sub: 'Sin papeleo ni filas' },
-    { icon: 'shield', titulo: 'Sin tarjeta, sin intereses ocultos', sub: 'Todo claro desde el inicio' },
     { icon: 'gift',   titulo: 'Divide en 4 quincenas',           sub: 'Compra hoy, paga a tu ritmo' },
   ],
 
