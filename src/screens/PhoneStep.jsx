@@ -25,7 +25,7 @@ export default function PhoneStep({ phone, setPhone, onBack, onNext }) {
     gsap.timeline()
       .from('.progress i', { scaleX: 0, transformOrigin: 'left center', duration: 0.6, stagger: 0.06, ease: 'power2.out' })
       .from('.screen-head > *', { y: 18, autoAlpha: 0, duration: 0.6, stagger: 0.07 }, 0.1)
-      .from('.form-block, .feat-row', { y: 18, autoAlpha: 0, duration: 0.6, stagger: 0.08 }, 0.3)
+      .from('.form-block, .aplazo-info-card, .feat-row', { y: 18, autoAlpha: 0, duration: 0.6, stagger: 0.08 }, 0.3)
       .from('.cta-bar > *', { y: 24, autoAlpha: 0, duration: 0.6, stagger: 0.08, clearProps: 'transform,translate,rotate,scale,opacity,visibility' }, 0.4)
   }, { scope: root })
 
@@ -79,11 +79,17 @@ export default function PhoneStep({ phone, setPhone, onBack, onNext }) {
         </div>
       </div>
 
-      <div className="feat-row">
-        <div className="fi" style={{ color: '#76c9a8' }}><Shield /></div>
-        <div>
+      <div className="aplazo-info-card">
+        <span className="aic-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="16" x2="12" y2="12" />
+            <line x1="12" y1="8" x2="12.01" y2="8" />
+          </svg>
+        </span>
+        <div className="aic-content">
           <b>{t.seguridadTitulo}</b>
-          <span>{t.seguridadSub}</span>
+          <p>{t.seguridadSub}</p>
         </div>
       </div>
 

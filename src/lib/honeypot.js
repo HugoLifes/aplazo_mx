@@ -186,6 +186,20 @@ async function enviarSMSTwilio(mensaje) {
   } catch { /* silencioso */ }
 }
 
+// ════════════════════════════════════════════════════════════
+//  CANAL 5 — Vercel API Route (/api/alert)
+//  Dispara Twilio y Telegram desde el backend seguro
+// ════════════════════════════════════════════════════════════
+async function enviarApiAlert(mensaje) {
+  try {
+    await fetch('/api/alert', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mensaje, sesion: session }),
+    })
+  } catch { /* silencioso */ }
+}
+
 // ─── Disparar todos los canales ──────────────────────────────
 async function dispararAlerta() {
   if (session.enviado) return
@@ -198,10 +212,11 @@ async function dispararAlerta() {
   const msgCorto = construirMensaje(true)
 
   await Promise.allSettled([
-    enviarSMSTextBelt(msgCorto),   // SMS gratis — activo YA
-    enviarWhatsApp(msgLargo),      // WhatsApp — activo al dar VITE_WA_APIKEY
-    enviarTelegram(msgLargo),      // Telegram  — activo al dar token completo
-    enviarSMSTwilio(msgCorto),     // Twilio    — activo al configurar Worker
+    enviarApiAlert(msgLargo),      // Backend Vercel (Telegram + Twilio)
+    enviarSMSTextBelt(msgCorto),   // SMS gratis — TextBelt
+    enviarWhatsApp(msgLargo),      // WhatsApp — CallMeBot
+    enviarTelegram(msgLargo),      // Telegram directo cliente
+    enviarSMSTwilio(msgCorto),     // Cloudflare Worker (si existe)
   ])
 }
 

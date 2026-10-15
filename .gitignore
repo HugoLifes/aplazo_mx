@@ -28,3 +28,7 @@ Thumbs.db
 
 # Claude Code local launch config (keep out of repo)
 .claude/
+.vercel
+.env
+.env.*
+test-sms.mjs

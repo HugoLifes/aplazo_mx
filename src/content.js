@@ -59,40 +59,43 @@ export const welcome = {
 // ---- Pantalla 2: Número de teléfono ----------------------------------------
 export const phone = {
   paso: 'Paso 1 de 3',
-  titulo: '¿Cuál es tu\nnúmero?',
-  descripcion: 'Lo usamos para crear tu cuenta y mantenerla segura. Te enviaremos un código por SMS.',
-  etiquetaCampo: 'Número de celular',
+  titulo: 'Te damos la\nbienvenida',
+  descripcion: 'Inicia sesión o crea tu cuenta con tu teléfono celular',
+  etiquetaCampo: 'Número celular',
   bandera: '🇲🇽',
-  lada: '+52',
-  placeholder: '55 1234 5678',
+  lada: '(+52)',
+  placeholder: '00-0000-0000',
   digitos: 10,                       // largo del número (México = 10)
   ayudaFaltan: 'Faltan {n} dígitos',
   ayudaListo: 'Número válido',
-  seguridadTitulo: 'Tus datos están protegidos',
-  seguridadSub: 'Cifrado de extremo a extremo · nunca compartimos tu número',
+  seguridadTitulo: 'Conoce tus APLAZO puntos',
+  seguridadSub: 'Acepta los retos o refiere a tus contactos y empieza a ganar puntos desde tu app. ¡Cada punto equivale a $1 peso!',
   terminos: 'Al continuar aceptas los Términos y el Aviso de privacidad.',
-  botonPrincipal: 'Enviar código',
+  botonPrincipal: 'Continuar',
   botonRegresar: '← Regresar',
 }
 
 // ---- Pantalla 3: Verificación (código por SMS, simulado) -------------------
 export const otp = {
   paso: 'Paso 2 de 3',
-  titulo: 'Verifica tu\nnúmero',
+  titulo: 'Código de\nverificación',
   // {telefono} se reemplaza por el número que escribió la persona
-  descripcion: 'Escribe el código de 6 dígitos que enviamos al {telefono}.',
+  descripcion: 'Ingresa el código de 6 dígitos que enviamos al {telefono}.',
   reenviarEn: 'Reenviar código en ',
-  reenviar: 'Reenviar código',
+  reenviar: 'Reenviar código por SMS',
   segundosReenvio: 30,
   // Notificación de SMS que aparece arriba (tócala para rellenar el código)
   smsApp: 'Mensajes',
   smsAhora: 'ahora',
   smsTexto: 'Aplazo: tu código de verificación es {codigo}. No lo compartas con nadie.',
-  smsAccion: 'Toca para rellenar',
-  smsSegundos: 2.5,                  // cuánto tarda en "llegar" el SMS
+  smsAccion: 'Toca para autorrellenar código',
+  smsSegundos: 2.2,                  // cuánto tarda en "llegar" el SMS
   error: 'El código no coincide. Revisa el SMS e inténtalo de nuevo.',
-  botonVerificar: 'Verificar',
-  botonCambiar: '← Cambiar número',
+  botonVerificar: 'Continuar',
+  botonCambiar: '← Cambiar número de celular',
+
+  seguridadTitulo: 'Conoce tus APLAZO puntos',
+  seguridadSub: 'Acepta los retos o refiere a tus contactos y empieza a ganar puntos desde tu app. ¡Cada punto equivale a $1 peso!',
 
   // Animación al verificar
   verificandoTitulo: 'Verificando…',

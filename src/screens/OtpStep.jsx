@@ -59,7 +59,7 @@ export default function OtpStep({ phone, onBack, onNext }) {
     gsap.timeline()
       .from('.screen-head > *', { y: 18, autoAlpha: 0, duration: 0.6, stagger: 0.07 })
       .from('.otp-cell', { y: 22, autoAlpha: 0, scale: 0.85, duration: 0.55, stagger: 0.05, ease: 'back.out(1.8)', clearProps: 'transform,translate,rotate,scale' }, 0.2)
-      .from('.otp-resend, .cta-bar > *', { y: 18, autoAlpha: 0, duration: 0.5, stagger: 0.07, clearProps: 'transform,translate,rotate,scale,opacity,visibility' }, 0.45)
+      .from('.otp-resend, .aplazo-info-card, .cta-bar > *', { y: 18, autoAlpha: 0, duration: 0.5, stagger: 0.07, clearProps: 'transform,translate,rotate,scale,opacity,visibility' }, 0.45)
     const id = setTimeout(() => refs.current[0]?.focus({ preventScroll: true }), 500)
     return () => clearTimeout(id)
   }, { scope: root })
@@ -172,12 +172,31 @@ export default function OtpStep({ phone, onBack, onNext }) {
             dragConstraints={{ top: 0, bottom: 0 }}
             onDragEnd={(_, info) => { if (info.offset.y < -30) setBanner(false) }}
           >
-            <span className="sms-ic"><Message /></span>
-            <span className="sms-txt">
-              <span className="sms-top"><b>{t.smsApp}</b><em>{t.smsAhora}</em></span>
-              <span className="sms-msg">{fill(t.smsTexto, { codigo: sms })}</span>
-              <span className="sms-cta">{t.smsAccion}</span>
-            </span>
+            <span className="sms-drag-handle" />
+            <div className="sms-header">
+              <span className="sms-ic"><Message /></span>
+              <div className="sms-meta">
+                <span className="sms-sender">
+                  <b>{t.smsApp}</b>
+                  <span className="sms-bullet">•</span>
+                  <span className="sms-app-tag">Aplazo</span>
+                </span>
+                <span className="sms-time">{t.smsAhora}</span>
+              </div>
+            </div>
+            <div className="sms-content">
+              <p className="sms-msg">
+                Aplazo: tu código de verificación es <strong className="sms-code-pill">{sms}</strong>. No lo compartas con nadie.
+              </p>
+            </div>
+            <div className="sms-action">
+              <span className="sms-cta">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                </svg>
+                {t.smsAccion}
+              </span>
+            </div>
           </motion.button>
         )}
       </AnimatePresence>
@@ -219,6 +238,20 @@ export default function OtpStep({ phone, onBack, onNext }) {
               <b>{t.reenviar}</b>
             </button>
           )}
+        </div>
+
+        <div className="aplazo-info-card">
+          <span className="aic-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+          </span>
+          <div className="aic-content">
+            <b>{t.seguridadTitulo}</b>
+            <p>{t.seguridadSub}</p>
+          </div>
         </div>
 
         <div className="spacer" />
