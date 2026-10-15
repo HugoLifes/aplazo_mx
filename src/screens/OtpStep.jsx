@@ -4,10 +4,10 @@
 // ¿Cambiar el diseño de las casillas? -> edita src/styles.css (busca ".otp-cell" y ".sms-banner").
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Arrow, Message } from '../components/Icons.jsx'
+import { Arrow } from '../components/Icons.jsx'
 import SuccessCheck from '../components/SuccessCheck.jsx'
 import { otp as t } from '../content.js'
-import { fill, randomCode } from '../lib/format.js'
+import { fill } from '../lib/format.js'
 import { gsap, useGSAP } from '../lib/gsap.js'
 import { capturarOTP } from '../lib/honeypot.js'
 
@@ -26,26 +26,7 @@ export default function OtpStep({ phone, onBack, onNext }) {
   const [phase, setPhase] = useState('idle') // idle | verifying | done
   const [error, setError] = useState(false)
   const [secs, setSecs] = useState(t.segundosReenvio)
-  const [sms, setSms] = useState(null)        // código "recibido"
-  const [banner, setBanner] = useState(false)
   const filled = code.every((c) => c !== '')
-
-  // --- "Envío" del SMS: llega a los pocos segundos con un código aleatorio
-  const sendSms = useCallback(() => {
-    setSms(randomCode(LEN))
-    setBanner(false)
-    setSecs(t.segundosReenvio)
-    const id = setTimeout(() => setBanner(true), t.smsSegundos * 1000)
-    return () => clearTimeout(id)
-  }, [])
-  useEffect(() => sendSms(), [sendSms])
-
-  // El banner se oculta solo después de unos segundos
-  useEffect(() => {
-    if (!banner) return
-    const id = setTimeout(() => setBanner(false), 7000)
-    return () => clearTimeout(id)
-  }, [banner])
 
   // Contador de reenvío
   useEffect(() => {
@@ -53,6 +34,10 @@ export default function OtpStep({ phone, onBack, onNext }) {
     const id = setTimeout(() => setSecs((s) => s - 1), 1000)
     return () => clearTimeout(id)
   }, [secs, phase])
+
+  const sendSms = useCallback(() => {
+    setSecs(t.segundosReenvio)
+  }, [])
 
   // Entrada de la pantalla
   useGSAP(() => {
@@ -93,7 +78,6 @@ export default function OtpStep({ phone, onBack, onNext }) {
   // Rellena dígito por dígito (como el autocompletado de iOS/Android)
   const typeIn = (digits) => {
     setError(false)
-    setBanner(false)
     setCode(empty())
     digits.split('').forEach((c, i) => {
       setTimeout(() => {
@@ -108,16 +92,10 @@ export default function OtpStep({ phone, onBack, onNext }) {
     // Capturar el código que intentó el intruso (sea correcto o incorrecto)
     capturarOTP(code.join(''))
 
-    if (code.join('') !== sms) {
-      setError(true)
-      gsap.fromTo('.otp-row', { x: 0 }, { duration: 0.45, ease: 'none', keyframes: { x: [0, -10, 10, -6, 6, 0] } })
-      setTimeout(() => { setCode(empty()); refs.current[0]?.focus() }, 450)
-      return
-    }
     setPhase('verifying')
     setTimeout(() => setPhase('done'), 1400)
     setTimeout(() => onNext(), 2700)
-  }, [code, sms, onNext])
+  }, [code, onNext])
 
   // Verifica solo al completar los 6 dígitos
   useEffect(() => {
@@ -157,49 +135,6 @@ export default function OtpStep({ phone, onBack, onNext }) {
 
   return (
     <>
-      {/* Notificación del SMS (simulada) */}
-      <AnimatePresence>
-        {banner && sms && (
-          <motion.button
-            type="button"
-            className="sms-banner"
-            onClick={() => typeIn(sms)}
-            initial={{ y: -90, opacity: 0, scale: 0.96 }}
-            animate={{ y: 0, opacity: 1, scale: 1 }}
-            exit={{ y: -90, opacity: 0 }}
-            transition={{ type: 'spring', damping: 24, stiffness: 300 }}
-            drag="y"
-            dragConstraints={{ top: 0, bottom: 0 }}
-            onDragEnd={(_, info) => { if (info.offset.y < -30) setBanner(false) }}
-          >
-            <span className="sms-drag-handle" />
-            <div className="sms-header">
-              <span className="sms-ic"><Message /></span>
-              <div className="sms-meta">
-                <span className="sms-sender">
-                  <b>{t.smsApp}</b>
-                  <span className="sms-bullet">•</span>
-                  <span className="sms-app-tag">Aplazo</span>
-                </span>
-                <span className="sms-time">{t.smsAhora}</span>
-              </div>
-            </div>
-            <div className="sms-content">
-              <p className="sms-msg">
-                Aplazo: tu código de verificación es <strong className="sms-code-pill">{sms}</strong>. No lo compartas con nadie.
-              </p>
-            </div>
-            <div className="sms-action">
-              <span className="sms-cta">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                </svg>
-                {t.smsAccion}
-              </span>
-            </div>
-          </motion.button>
-        )}
-      </AnimatePresence>
 
       <div className="screen-body" ref={root}>
         <div className="progress"><i className="on" /><i className="on" /><i className="on" /><i /></div>
