@@ -2,7 +2,7 @@
 // ¿Cambiar textos, LADA, placeholder? -> edita src/content.js (sección "phone").
 // ¿Cambiar el diseño del campo? -> edita src/styles.css (busca ".phone-input").
 import { useEffect, useRef } from 'react'
-import { Arrow, Check, Shield } from '../components/Icons.jsx'
+import { Arrow, Check, MexicoFlag, Shield } from '../components/Icons.jsx'
 import { phone as t } from '../content.js'
 import { fill, formatPhone } from '../lib/format.js'
 import { gsap, useGSAP } from '../lib/gsap.js'
@@ -59,7 +59,7 @@ export default function PhoneStep({ phone, setPhone, onBack, onNext }) {
         <div className="field">
           <label htmlFor="tel">{t.etiquetaCampo}</label>
           <div className={`phone-input ${valid ? 'ok' : ''}`}>
-            <span className="cc"><span className="flag">{t.bandera}</span> {t.lada}</span>
+            <span className="cc"><span className="flag"><MexicoFlag width={22} height={15} /></span> {t.lada}</span>
             <input
               id="tel"
               ref={input}

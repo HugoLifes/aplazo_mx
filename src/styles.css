@@ -281,7 +281,7 @@ html, body { overflow: hidden; }   /* en escritorio solo se desplaza el contenid
   display: flex; align-items: center; gap: 6px; font-weight: 600; color: #333; white-space: nowrap;
   background: #e6e6e6; border: 1px solid #dcdcdc; border-radius: 10px; padding: 10px 12px; font-size: 15px;
 }
-.phone-input .flag { font-size: 18px; }
+.phone-input .flag { display: inline-flex; align-items: center; line-height: 1; }
 .phone-input input {
   flex: 1; min-width: 0; background: none; border: none; outline: none;
   color: var(--txt); font-size: 18px; font-weight: 600; font-family: var(--font-display);

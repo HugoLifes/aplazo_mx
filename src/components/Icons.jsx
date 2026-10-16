@@ -29,6 +29,41 @@ export const Help = (p) => (<svg {...base} {...p}><circle cx="12" cy="12" r="9" 
 export const Logout = (p) => (<svg {...base} {...p}><path d="M15 4h3a2 2 0 012 2v12a2 2 0 01-2 2h-3M10 17l5-5-5-5M15 12H4" /></svg>)
 export const Message = (p) => (<svg {...base} {...p}><path d="M4 5h16a1 1 0 011 1v10a1 1 0 01-1 1H9l-5 4V6a1 1 0 011-1z" /></svg>)
 
+export const MexicoFlag = ({ width = 24, height = 16, className = '', ...props }) => (
+  <svg
+    width={width}
+    height={height}
+    viewBox="0 0 32 22"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={`mexico-flag ${className}`}
+    style={{ borderRadius: '3px', overflow: 'hidden', display: 'inline-block', verticalAlign: 'middle', boxShadow: '0 0 0 1px rgba(0,0,0,0.1)' }}
+    {...props}
+  >
+    <rect width="32" height="22" fill="#ffffff" />
+    <rect width="10.67" height="22" fill="#006847" />
+    <rect x="21.33" width="10.67" height="22" fill="#ce1126" />
+    {/* Mexican coat of arms emblem */}
+    <g transform="translate(16, 11) scale(0.9)">
+      {/* Cactus & rock base */}
+      <ellipse cx="0" cy="3.5" rx="3.5" ry="1.2" fill="#5c3a21" />
+      <path d="M-2.5 3.5 Q0 1 2.5 3.5" fill="#2d7f36" />
+      {/* Eagle body & wings */}
+      <path d="M-2.2 0.8 Q-4.2 -1.5 -1.8 -3 Q0 -3.5 1.8 -3 Q4.2 -1.5 2.2 0.8 Q0 2 -2.2 0.8 Z" fill="#6b4423" />
+      {/* Eagle head */}
+      <circle cx="-0.8" cy="-3.2" r="1.3" fill="#6b4423" />
+      <path d="M-1.8 -3.2 L-2.8 -2.8 L-1.8 -2.4 Z" fill="#f59e0b" />
+      {/* Snake */}
+      <path d="M-2.2 -2.6 Q-0.5 -4.5 1.5 -3.2 Q2.8 -2 2.2 -0.8" stroke="#15803d" strokeWidth="0.8" fill="none" strokeLinecap="round" />
+      {/* Laurel & oak branches */}
+      <path d="M-4.2 3.2 C-5 1 -4.5 -1.5 -3 -2.5" stroke="#16a34a" strokeWidth="0.6" fill="none" strokeLinecap="round" />
+      <path d="M4.2 3.2 C5 1 4.5 -1.5 3 -2.5" stroke="#15803d" strokeWidth="0.6" fill="none" strokeLinecap="round" />
+      {/* Ribbon */}
+      <path d="M-1.8 4.2 L1.8 4.2" stroke="#ce1126" strokeWidth="0.8" strokeLinecap="round" />
+    </g>
+  </svg>
+)
+
 // Mapa de ícono por nombre: permite escribir 'bolt', 'cart', etc. en content.js.
 // <Icon name="bolt" /> pinta el ícono correspondiente.
 const MAP = {
