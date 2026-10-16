@@ -99,9 +99,11 @@ export default function PhoneStep({ phone, setPhone, onBack, onNext }) {
         <button type="submit" className="btn" disabled={!valid}>
           {t.botonPrincipal} <Arrow />
         </button>
-        <button type="button" className="btn-link" onClick={onBack}>
-          {t.botonRegresar}
-        </button>
+        {onBack && (
+          <button type="button" className="btn-link" onClick={onBack}>
+            {t.botonRegresar}
+          </button>
+        )}
       </div>
     </form>
   )
