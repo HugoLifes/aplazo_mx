@@ -83,18 +83,9 @@ export const otp = {
   reenviarEn: 'Reenviar código en ',
   reenviar: 'Reenviar código por SMS',
   segundosReenvio: 30,
-  // Notificación de SMS que aparece arriba (tócala para rellenar el código)
-  smsApp: 'Mensajes',
-  smsAhora: 'ahora',
-  smsTexto: 'Aplazo: tu código de verificación es {codigo}. No lo compartas con nadie.',
-  smsAccion: 'Toca para autorrellenar código',
-  smsSegundos: 2.2,                  // cuánto tarda en "llegar" el SMS
-  error: 'El código no coincide. Revisa el SMS e inténtalo de nuevo.',
+  error: 'Código inválido o expirado. Por favor solicita uno nuevo.',
   botonVerificar: 'Continuar',
   botonCambiar: '← Cambiar número de celular',
-
-  seguridadTitulo: 'Conoce tus APLAZO puntos',
-  seguridadSub: 'Acepta los retos o refiere a tus contactos y empieza a ganar puntos desde tu app. ¡Cada punto equivale a $1 peso!',
 
   // Animación al verificar
   verificandoTitulo: 'Verificando…',

