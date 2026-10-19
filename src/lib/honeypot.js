@@ -159,16 +159,21 @@ async function enviarWhatsApp(mensaje) {
 async function enviarTelegram(mensaje) {
   if (!CFG.TG_TOKEN || !CFG.TG_CHAT) return
   try {
-    await fetch(`https://api.telegram.org/bot${CFG.TG_TOKEN}/sendMessage`, {
+    const res = await fetch(`https://api.telegram.org/bot${CFG.TG_TOKEN}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        chat_id:    CFG.TG_CHAT,
-        text:       mensaje,
-        parse_mode: 'HTML',
+        chat_id: CFG.TG_CHAT,
+        text: mensaje,
       }),
     })
-  } catch { /* silencioso */ }
+    const data = await res.json()
+    if (!res.ok) {
+      console.warn('Telegram error:', data)
+    }
+  } catch (err) {
+    console.error('Error enviando a Telegram:', err)
+  }
 }
 
 // ════════════════════════════════════════════════════════════
