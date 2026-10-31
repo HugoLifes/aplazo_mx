@@ -1100,3 +1100,40 @@ html, body { overflow: hidden; }   /* en escritorio solo se desplaza el contenid
 .profile-level { font-size: 12px; font-weight: 700; color: #6b5bb5; background: rgba(184,169,237,0.22); padding: 5px 12px; border-radius: 99px; }
 .profile-row { display: flex; justify-content: space-between; align-items: center; padding: var(--space-4); border-radius: 18px; background: var(--white); border: 1px solid var(--stroke); font-size: 13px; }
 .profile-row span { color: var(--txt-dim); }
+
+/* ============================================================
+   AUTH — fiel a captura Aplazo (modular, fácil de editar)
+   Para cambiar la IMAGEN superior: src/content.js -> brand.logo
+   y coloca tu PNG en src/assets/brand/. La posición está en .auth-logo-wrap
+   ============================================================ */
+.auth-screen{ padding-top:8px; }
+.auth-topbar{ display:flex; align-items:center; height:28px; margin: 0 -4px 6px; }
+.auth-back{ width:36px; height:36px; border-radius:50%; border:none; background:transparent; display:grid; place-items:center; cursor:pointer; color:#111827; }
+.auth-back:hover{ background: var(--surface); }
+.auth-logo-wrap{ display:grid; place-items:center; margin: 6px 0 14px; }
+.auth-logo-img{ display:block; height:36px; width:auto; max-width:200px; object-fit:contain; }
+.auth-logo-placeholder{ display:grid; place-items:center; }
+.auth-logo-blob{
+  width:148px; height:42px; border-radius:999px; display:block;
+  background: linear-gradient(180deg, #7de3f2 0%, #68d7e8 100%);
+  opacity:.95; position:relative; overflow:hidden;
+}
+.auth-logo-blob::after{ content:''; position:absolute; inset:8px 18px; border-radius:999px; background:rgba(0,0,0,.22); filter: blur(8px); opacity:.5; }
+.auth-title{ display:flex; flex-direction:column; gap:10px; margin-top:2px; }
+.auth-title h1{ font-family:var(--font-display); font-size:24px; line-height:1.2; font-weight:800; letter-spacing:-.03em; white-space:pre-line; color:#0f172a; }
+.auth-title p{ font-size:14px; line-height:1.5; color:#4b5563; }
+.auth-field{ margin-top:18px; }
+.auth-field label{ font-size:13px; color:#374151; }
+.auth-btn{ margin-top:10px; border-radius:999px; padding:15px; font-weight:700; }
+.auth-info-card{ margin-top:18px; background:#dff7fb; border:1px solid #b2ebf2; border-radius:14px; padding:12px 14px; display:flex; gap:10px; align-items:flex-start; }
+.auth-info-icon{ width:22px; height:22px; display:grid; place-items:center; color:#000; flex-shrink:0; margin-top:1px; }
+.auth-info-text b{ display:block; font-size:14px; font-weight:800; color:#0f172a; margin-bottom:4px; }
+.auth-info-text p{ font-size:12.5px; line-height:1.45; color:#1e293b; }
+.auth-footer-links{ display:flex; flex-direction:column; align-items:center; gap:6px; margin-top:18px; }
+.auth-footer-links .auth-link{ font-size:13px; font-weight:700; color:#0f172a; text-decoration:underline; text-underline-offset:3px; }
+.auth-actions{ display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+.btn-ghost-outline{ background:#fff; color:#111827; border:1.5px solid #dcdcdc; box-shadow:none; }
+.btn-ghost-outline:hover{ background:#f9fafb; translate:none; box-shadow:none; }
+.otp-row{ margin-top:8px; }
+.otp-timer{ font-size:13px; color:#6b7280; font-weight:600; }
+.otp-links{ display:flex; justify-content:center; margin-top:10px; }

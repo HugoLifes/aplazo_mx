@@ -1,110 +1,79 @@
-// Pantalla de NÚMERO DE TELÉFONO.
-// ¿Cambiar textos, LADA, placeholder? -> edita src/content.js (sección "phone").
-// ¿Cambiar el diseño del campo? -> edita src/styles.css (busca ".phone-input").
+// Pantalla 1: NÚMERO — fiel a captura Aplazo
+// MODULAR: usa BrandMark / InfoCard / AuthFooterLinks
+// Para cambiar la imagen superior: src/content.js -> brand.logo o pon tu PNG en src/assets/brand/
 import { useEffect, useRef } from 'react'
-import { Arrow, Check, MexicoFlag, Shield } from '../components/Icons.jsx'
-import { phone as t } from '../content.js'
+import { Check, MexicoFlag } from '../components/Icons.jsx'
+import { BrandMark, BackLink } from '../components/auth/AuthHeader.jsx'
+import InfoCard from '../components/auth/InfoCard.jsx'
+import AuthFooterLinks from '../components/auth/AuthFooterLinks.jsx'
+import { phone as t, brand as brandCfg } from '../content.js'
 import { fill, formatPhone } from '../lib/format.js'
 import { gsap, useGSAP } from '../lib/gsap.js'
 
-// Solo dígitos y como máximo `t.digitos` (también al pegar "+52 55 1234 5678")
-function clean(value) {
-  let d = value.replace(/\D/g, '')
-  if (d.length > t.digitos && d.startsWith('52')) d = d.slice(2)
-  return d.slice(0, t.digitos)
-}
+function clean(v){ let d=v.replace(/\D/g,''); if(d.length>t.digitos && d.startsWith('52')) d=d.slice(2); return d.slice(0,t.digitos) }
 
-export default function PhoneStep({ phone, setPhone, onBack, onNext }) {
-  const root = useRef(null)
-  const input = useRef(null)
-  const digits = phone
-  const valid = digits.length === t.digitos
-  const faltan = t.digitos - digits.length
+export default function PhoneStep({ phone, setPhone, onBack, onNext }){
+  const root=useRef(null); const input=useRef(null)
+  const valid = phone.length===t.digitos
+  const faltan = t.digitos - phone.length
 
-  useGSAP(() => {
-    gsap.timeline()
-      .from('.progress i', { scaleX: 0, transformOrigin: 'left center', duration: 0.6, stagger: 0.06, ease: 'power2.out' })
-      .from('.screen-head > *', { y: 18, autoAlpha: 0, duration: 0.6, stagger: 0.07 }, 0.1)
-      .from('.form-block, .aplazo-info-card, .feat-row', { y: 18, autoAlpha: 0, duration: 0.6, stagger: 0.08 }, 0.3)
-      .from('.cta-bar > *', { y: 24, autoAlpha: 0, duration: 0.6, stagger: 0.08, clearProps: 'transform,translate,rotate,scale,opacity,visibility' }, 0.4)
-  }, { scope: root })
+  useGSAP(()=>{ gsap.timeline()
+    .from('.auth-logo-wrap',{y:10, autoAlpha:0, duration:.5})
+    .from('.auth-title > *',{y:14, autoAlpha:0, duration:.45, stagger:.06},'-=.2')
+    .from('.phone-input',{y:14, autoAlpha:0, duration:.45},'-=.1')
+    .from('.auth-btn',{y:14, autoAlpha:0, duration:.45},'-=.2')
+    .from('.auth-info-card',{y:14, autoAlpha:0, duration:.45},'-=.25')
+    .from('.auth-footer-links a',{y:8, autoAlpha:0, duration:.4, stagger:.07},'-=.2')
+  },{scope:root})
 
-  // Palomita que aparece al completar el número
-  useGSAP(() => {
-    if (valid) gsap.fromTo('.pi-ok', { scale: 0, rotate: -40 }, { scale: 1, rotate: 0, duration: 0.5, ease: 'back.out(2.4)' })
-  }, { scope: root, dependencies: [valid] })
+  useGSAP(()=>{ if(valid) gsap.fromTo('.pi-ok',{scale:0,rotate:-40},{scale:1,rotate:0,duration:.45, ease:'back.out(2.4)'})},{scope:root,dependencies:[valid]})
 
-  useEffect(() => {
-    const id = setTimeout(() => input.current?.focus({ preventScroll: true }), 450)
-    return () => clearTimeout(id)
-  }, [])
+  useEffect(()=>{ const id=setTimeout(()=>input.current?.focus({preventScroll:true}),400); return ()=>clearTimeout(id)},[])
 
-  const submit = (e) => {
+  const submit=e=>{
     e.preventDefault()
-    if (valid) onNext()
-    else gsap.fromTo('.phone-input', { x: 0 }, { x: 0, duration: 0.4, ease: 'none', keyframes: { x: [0, -8, 8, -5, 5, 0] } })
+    if(valid) onNext()
+    else gsap.fromTo('.phone-input',{x:0},{x:0,duration:.4,keyframes:{x:[0,-8,8,-5,5,0]}})
   }
 
-  return (
-    <form className="screen-body" ref={root} onSubmit={submit} noValidate>
-      <div className="progress"><i className="on" /><i className="on" /><i /><i /></div>
+  // Logo: si existe brand.logo se muestra. Si no, blob celeste placeholder (igual a captura)
+  const logoSrc = brandCfg.logo ? `/src/assets/brand/${brandCfg.logo}` : null
 
-      <header className="screen-head">
-        <span className="eyebrow">{t.paso}</span>
-        <h2 className="display">{t.titulo}</h2>
-        <p className="lead">{t.descripcion}</p>
+  return (
+    <form className="screen-body auth-screen" ref={root} onSubmit={submit} noValidate>
+      {/* Flecha arriba izquierda como en captura */}
+      <div className="auth-topbar">
+        <BackLink onClick={onBack||(()=>{})} />
+      </div>
+
+      <BrandMark src={logoSrc} />
+
+      <header className="auth-title">
+        <h1>{t.titulo}</h1>
+        <p>{t.descripcion}</p>
       </header>
 
-      <div className="form-block">
-        <div className="field">
-          <label htmlFor="tel">{t.etiquetaCampo}</label>
-          <div className={`phone-input ${valid ? 'ok' : ''}`}>
-            <span className="cc"><span className="flag"><MexicoFlag width={22} height={15} /></span> {t.lada}</span>
-            <input
-              id="tel"
-              ref={input}
-              type="tel"
-              inputMode="numeric"
-              autoComplete="tel-national"
-              placeholder={t.placeholder}
-              value={formatPhone(digits)}
-              maxLength={t.digitos + 2}
-              onChange={(e) => setPhone(clean(e.target.value))}
-            />
-            <span className="pi-ok" aria-hidden={!valid} style={{ visibility: valid ? 'visible' : 'hidden' }}><Check /></span>
-          </div>
-          <span className={`field-hint ${valid ? 'ok' : ''}`} aria-live="polite">
-            {digits.length === 0 ? ' ' : valid ? t.ayudaListo : fill(t.ayudaFaltan, { n: faltan })}
-          </span>
+      <div className="field auth-field">
+        <label htmlFor="tel">{t.etiquetaCampo}</label>
+        <div className={`phone-input ${valid?'ok':''}`}>
+          <span className="cc"><span className="flag"><MexicoFlag width={22} height={15} /></span> {t.lada}</span>
+          <input id="tel" ref={input} type="tel" inputMode="numeric" autoComplete="tel-national"
+            placeholder={t.placeholder} value={formatPhone(phone)} onChange={e=>setPhone(clean(e.target.value))} />
+          <span className="pi-ok" aria-hidden={!valid} style={{visibility: valid?'visible':'hidden'}}><Check/></span>
         </div>
+        <span className={`field-hint ${valid?'ok':''}`}>{phone.length===0?' ': valid? t.ayudaListo : fill(t.ayudaFaltan,{n:faltan})}</span>
       </div>
 
-      <div className="aplazo-info-card">
-        <span className="aic-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" y1="16" x2="12" y2="12" />
-            <line x1="12" y1="8" x2="12.01" y2="8" />
-          </svg>
-        </span>
-        <div className="aic-content">
-          <b>{t.seguridadTitulo}</b>
-          <p>{t.seguridadSub}</p>
-        </div>
-      </div>
+      <button type="submit" className="btn auth-btn" disabled={!valid}>{t.botonPrincipal}</button>
 
-      <div className="spacer" />
-      <div className="cta-bar">
-        <p className="legal">{t.terminos}</p>
-        <button type="submit" className="btn" disabled={!valid}>
-          {t.botonPrincipal} <Arrow />
-        </button>
-        {onBack && (
-          <button type="button" className="btn-link" onClick={onBack}>
-            {t.botonRegresar}
-          </button>
-        )}
-      </div>
+      <InfoCard title={t.seguridadTitulo} text={t.seguridadSub} />
+
+      <AuthFooterLinks links={[
+        { label: t.linkCambioNumero || '¿Cambiaste tu número de teléfono?' },
+        { label: t.linkVender || '¿Quieres vender con APLAZO?' },
+      ]} />
+
+      <p className="legal" style={{marginTop:14}}>{t.terminos}</p>
     </form>
   )
 }

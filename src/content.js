@@ -72,6 +72,8 @@ export const phone = {
   terminos: 'Al continuar aceptas los Términos y el Aviso de privacidad.',
   botonPrincipal: 'Continuar',
   botonRegresar: '← Regresar',
+  linkCambioNumero: '¿Cambiaste tu número de teléfono?',
+  linkVender: '¿Quieres vender con APLAZO?',
 }
 
 // ---- Pantalla 3: Verificación (código por SMS, simulado) -------------------
@@ -85,6 +87,10 @@ export const otp = {
   segundosReenvio: 30,
   error: 'Código inválido o expirado. Por favor solicita uno nuevo.',
   botonVerificar: 'Continuar',
+  tituloOtp: 'Verifica tu teléfono',
+  descripcionOtp: 'Ingresa el código que enviamos a {telefono}',
+  botonWhatsapp: 'Enviar código por Whatsapp',
+  botonSms: 'Enviar código por SMS',
   botonCambiar: '← Cambiar número de celular',
 
   // Animación al verificar
