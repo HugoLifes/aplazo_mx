@@ -1,12 +1,12 @@
-// Pantalla 1: NÚMERO — fiel a captura Aplazo
-// MODULAR: usa BrandMark / InfoCard / AuthFooterLinks
-// Para cambiar la imagen superior: src/content.js -> brand.logo o pon tu PNG en src/assets/brand/
+// Pantalla 1: NÚMERO — fiel a captura de Aplazo
+// Estructura modular: BrandMark / InfoCard / AuthFooterLinks (src/components/auth/)
+// Textos: src/content.js (sección "phone") · Estilos: src/styles.css (bloque "AUTH")
 import { useEffect, useRef } from 'react'
 import { Check, MexicoFlag } from '../components/Icons.jsx'
 import { BrandMark, BackLink } from '../components/auth/AuthHeader.jsx'
 import InfoCard from '../components/auth/InfoCard.jsx'
 import AuthFooterLinks from '../components/auth/AuthFooterLinks.jsx'
-import { phone as t, brand as brandCfg } from '../content.js'
+import { phone as t } from '../content.js'
 import { fill, formatPhone } from '../lib/format.js'
 import { gsap, useGSAP } from '../lib/gsap.js'
 
@@ -20,7 +20,7 @@ export default function PhoneStep({ phone, setPhone, onBack, onNext }){
   useGSAP(()=>{ gsap.timeline()
     .from('.auth-logo-wrap',{y:10, autoAlpha:0, duration:.5})
     .from('.auth-title > *',{y:14, autoAlpha:0, duration:.45, stagger:.06},'-=.2')
-    .from('.phone-input',{y:14, autoAlpha:0, duration:.45},'-=.1')
+    .from('.auth-field',{y:14, autoAlpha:0, duration:.45},'-=.1')
     .from('.auth-btn',{y:14, autoAlpha:0, duration:.45},'-=.2')
     .from('.auth-info-card',{y:14, autoAlpha:0, duration:.45},'-=.25')
     .from('.auth-footer-links a',{y:8, autoAlpha:0, duration:.4, stagger:.07},'-=.2')
@@ -36,17 +36,14 @@ export default function PhoneStep({ phone, setPhone, onBack, onNext }){
     else gsap.fromTo('.phone-input',{x:0},{x:0,duration:.4,keyframes:{x:[0,-8,8,-5,5,0]}})
   }
 
-  // Logo: si existe brand.logo se muestra. Si no, blob celeste placeholder (igual a captura)
-  const logoSrc = brandCfg.logo ? `/src/assets/brand/${brandCfg.logo}` : null
-
   return (
     <form className="screen-body auth-screen" ref={root} onSubmit={submit} noValidate>
-      {/* Flecha arriba izquierda como en captura */}
+      {/* Flecha arriba-izquierda, como en la captura */}
       <div className="auth-topbar">
-        <BackLink onClick={onBack||(()=>{})} />
+        {onBack ? <BackLink onClick={onBack}/> : <span style={{width:36}}/>}
       </div>
 
-      <BrandMark src={logoSrc} />
+      <BrandMark />
 
       <header className="auth-title">
         <h1>{t.titulo}</h1>
@@ -69,11 +66,9 @@ export default function PhoneStep({ phone, setPhone, onBack, onNext }){
       <InfoCard title={t.seguridadTitulo} text={t.seguridadSub} />
 
       <AuthFooterLinks links={[
-        { label: t.linkCambioNumero || '¿Cambiaste tu número de teléfono?' },
-        { label: t.linkVender || '¿Quieres vender con APLAZO?' },
+        { label: t.linkCambioNumero },
+        { label: t.linkVender },
       ]} />
-
-      <p className="legal" style={{marginTop:14}}>{t.terminos}</p>
     </form>
   )
 }

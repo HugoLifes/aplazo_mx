@@ -1,3 +1,7 @@
+// Logo de marca en las pantallas de autenticación.
+// El PNG vive en src/assets/brand/ (importado por Vite -> funciona en el build de Vercel).
+// Para cambiarlo: reemplaza src/assets/brand/aplazo-pill.png o edita brand.logo en src/content.js
+import logoPill from '../../assets/brand/aplazo-pill.png'
 import { brand } from '../../content.js'
 
 export function BackLink({ onClick }) {
@@ -10,20 +14,10 @@ export function BackLink({ onClick }) {
   )
 }
 
-export function BrandMark({ src, alt = "Aplazo" }) {
-  // POSICIÓN CORRECTA DE LA IMAGEN: centrada arriba, ancho 160px.
-  // Para cambiarla edita src/content.js -> brand.logo o reemplaza /src/assets/brand/logo.png
-  const logoSrc = src || brand.logo || ""
+export function BrandMark({ src, alt = 'Aplazo' }) {
   return (
     <div className="auth-logo-wrap">
-      {logoSrc ? (
-        <img src={logoSrc} alt={alt} className="auth-logo-img" />
-      ) : (
-        <div className="auth-logo-placeholder">
-          {/* Placeholder turquesa como en la captura — reemplaza por <img> cuando tengas el PNG */}
-          <span className="auth-logo-blob" />
-        </div>
-      )}
+      <img src={src || logoPill} alt={alt} className="auth-logo-img" />
     </div>
   )
 }
